@@ -1,0 +1,36 @@
+import { useEffect, useRef } from 'react';
+import toast from 'react-hot-toast';
+import { studentRes } from '../api/StudentApi';
+import { useStudent } from '../hooks/useStudent';
+import { ResultDataType, type CurrentType } from '../types';
+import useSWR from 'swr';
+const useStudentResult = () => {
+  const arrayOfGrades = useRef<string[]>(null);
+  const { student } = useStudent();
+
+  const { data: result, isLoading } = useSWR<ResultDataType>(
+    'student-result',
+    studentRes,
+    {
+      onSuccess: () => toast.success('Result retrived'),
+    }
+  );
+
+  useEffect(() => {
+    arrayOfGrades.current =
+      result?.res.grades.reduce((acc: string[], current: CurrentType) => {
+        if (current.subject && !acc.includes(current.grade))
+          acc.push(current.grade);
+        return acc;
+      }, [] as string[]) || [];
+  }, [isLoading]);
+
+  return {
+    isLoading,
+    student,
+    arrayOfGrades,
+    result,
+  };
+};
+
+export default useStudentResult;
