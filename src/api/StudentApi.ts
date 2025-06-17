@@ -11,7 +11,7 @@ export type StudentType = {
   confirmPassword?: string;
 };
 
-export const urlEndpoint = 'http://localhost:3500/api/v1';
+export const urlEndpoint = 'https://upload-pdf-uni-backend.onrender.com/api/v1';
 
 export const createInstancePoint = axios.create({
   baseURL: urlEndpoint,
