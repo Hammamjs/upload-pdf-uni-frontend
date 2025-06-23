@@ -1,30 +1,17 @@
 import Search from './Search';
 import StudentRoleCard from './StudentRoleCard';
 import StudentSkeleton from '../animation/StudentSkeleton';
-import useStudentRole from '../hooks/useStudentRole';
 import { Toaster } from 'react-hot-toast';
+import { Suspense } from 'react';
+import LoadingMaterials from '@/animation/LoadingMaterials';
+import SuspenseLoader from '@/animation/SuspenseLoader';
 
 const StudentRoles = () => {
-  const { changeRole, filteredSt, handleSearchForStudent, isLoading } =
-    useStudentRole();
-
   return (
-    <div className="p-3 container mx-auto min-h-[calc(100vh-80px)] relative">
-      <Search
-        searchByPlaceholder="Search by student name"
-        student={(e) => handleSearchForStudent(e.target.value)}
-      />
-
-      {isLoading
-        ? [...Array(10).keys()].map((i) => <StudentSkeleton key={i} />)
-        : filteredSt?.map(({ role, name, email }) => (
-            <StudentRoleCard
-              name={name}
-              role={role}
-              key={email}
-              changeRole={() => changeRole(email, role)}
-            />
-          ))}
+    <div className="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      <Suspense fallback={<SuspenseLoader />}>
+        <StudentRoleCard />
+      </Suspense>
       <Toaster position="top-right" />
     </div>
   );

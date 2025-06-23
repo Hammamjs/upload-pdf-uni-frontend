@@ -17,12 +17,12 @@ const Subject = () => {
           <WaitingAnimation />
         ) : (
           subject?.map(
-            ({ title, view, content, department, year, semester }) => (
+            ({ title, view, content, departments, year, semester }) => (
               <SubjectContent
                 view={view}
                 content={content}
                 title={title}
-                department={department}
+                department={departments}
                 semester={semester}
                 year={year}
                 key={title}

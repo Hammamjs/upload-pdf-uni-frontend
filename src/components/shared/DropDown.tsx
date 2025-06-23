@@ -1,61 +1,45 @@
-import { Dispatch, SetStateAction, useState } from 'react';
-import LiTag from './LiTag';
-import { FaChevronUp } from 'react-icons/fa';
-import cn from '../../utils/cn';
+import {
+  DepartmentsType,
+  SemesterType,
+  YearType,
+} from '@/context/StudentContext';
+import Options from './Options';
+import { UseFormRegister } from 'react-hook-form';
+import { LucideIcon } from 'lucide-react';
 
 const DropDown = ({
   values,
-  setValue,
-  className,
-  value,
-  setDepArr,
-  depArr,
+  title,
+  name,
+  register,
+  isDisabled,
+  Icon,
 }: {
-  values: string[];
-  className?: string;
-  setValue: Dispatch<SetStateAction<string>>;
-  value: string;
-  setDepArr?: Dispatch<SetStateAction<string[]>>;
-  depArr?: string[];
+  values: (string | number | DepartmentsType | YearType | SemesterType)[];
+  title: string;
+  name: string;
+  register: UseFormRegister<any>;
+  isDisabled?: boolean;
+  Icon?: LucideIcon;
 }) => {
-  const [isSelect, setIsSelect] = useState(false);
-
-  const handleOnSelect = (val: string) => {
-    setIsSelect(false);
-    setValue(val);
-    if (setDepArr) {
-      if (!depArr?.includes(val)) setDepArr((prev) => [...prev, val]);
-    }
-  };
-
   return (
-    <div
-      className={cn(
-        'w-4/5 p-1 px-4 mx-auto bg-gray-300 mt-2 relative cursor-pointer  transition-all text-xs',
-        className
-      )}
-      onClick={() => setIsSelect((prev) => !prev)}
-    >
-      <ol className="flex justify-between items-center">
-        {value}
-        <FaChevronUp
-          className={`text-xs ${
-            isSelect ? 'rotate-0' : 'rotate-180'
-          } transition-transform duration-300`}
-        />
-      </ol>
-      {isSelect && (
-        <ul className="list-none absolute bg-gray-300 w-full left-0 p-1 z-10">
-          {values.map((val) => (
-            <LiTag
-              key={val}
-              value={val}
-              className="text-start p-1"
-              onClick={() => handleOnSelect(val)}
-            />
-          ))}
-        </ul>
-      )}
+    <div>
+      <label className="block text-sm font-medium text-gray-300 mb-2">
+        {name[0].toUpperCase() + name.slice(1)} *
+      </label>
+      <div className="relative">
+        {Icon && (
+          <Icon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+        )}
+        <select
+          className="w-full px-8 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+          required
+          {...register(name)}
+          disabled={isDisabled}
+        >
+          <Options values={values} title={title} />
+        </select>
+      </div>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import ResetPassword from '../components/ResetPassword';
 
 const ResetPasswordPage = () => {
   return (
-    <div className="container mx-auto h-[calc(100vh-80px)] p-2 flex justify-center items-center">
+    <div>
       <ResetPassword />
       <Toaster />
     </div>

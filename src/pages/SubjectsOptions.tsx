@@ -11,7 +11,7 @@ const SubjectsOptions = () => {
   return (
     <div className="min-h-[calc(100vh-80px)] h-full">
       <div className="container mx-auto">
-        <p className="font-bold border-b p-3">Search for subject</p>
+        {/* <p className="font-bold border-b p-3">Search for subject</p>
 
         <Search
           searchByPlaceholder="Search for the subject..."
@@ -43,7 +43,7 @@ const SubjectsOptions = () => {
           )
         ) : (
           <p className="text-center">No content found</p>
-        )}
+        )} */}
       </div>
       <Toaster position="top-left" />
     </div>

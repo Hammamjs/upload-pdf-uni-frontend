@@ -1,33 +1,56 @@
-import { FieldValues, useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
-import { studentForgotPass } from '../api/StudentApi';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { studentForgotPass } from '../api/AuthApi';
+import { addToLocalstorage } from '@/lib/LocalStorage';
+import { useState } from 'react';
 
 const useForgotPassword = () => {
-  const {
-    register,
-    formState: { isSubmitting },
-    handleSubmit,
-    reset,
-  } = useForm();
+  const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState('');
 
-  const navigate = useNavigate();
-  const handleForgotPass = async (data: FieldValues) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!email) {
+      setError('Email is required');
+      return;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
+    setError('');
+    setIsLoading(true);
+
+    // Simulate API call
     try {
-      const res = await studentForgotPass(data.email);
-      toast.success(res.message, { position: 'top-right' });
-      reset();
-      setTimeout(() => navigate('/reset-code'), 800);
+      const res = await studentForgotPass(email);
+      setIsLoading(false);
+      if (res.status === 200) {
+        setIsSuccess(true);
+        addToLocalstorage('reset-password-email', email);
+        console.log(email);
+      }
     } catch (err) {
-      if (axios.isAxiosError(err)) toast.error(err?.response?.data?.message);
+      console.log(err);
     }
   };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    if (error) setError('');
+  };
+
   return {
-    handleForgotPass,
-    register,
-    isSubmitting,
+    email,
+    isLoading,
+    isSuccess,
+    error,
     handleSubmit,
+    handleInputChange,
+    setIsSuccess,
   };
 };
 

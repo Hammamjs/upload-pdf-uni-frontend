@@ -1,11 +1,23 @@
 const StudentResultTable = () => {
   return (
-    <div className="w-full border-2 text-xs md:text-sm grid grid-cols-12 mt-2 text-gray-300 border-gray-500 bg-gray-500 text-center">
-      <p className="border-r p-1 col-span-2">Semester</p>
-      <p className="col-span-7 border-r p-1">Subject</p>
-      <p className="border-r p-1">CH</p>
-      <p className="p-1 col-span-2">Grade</p>
-    </div>
+    <>
+      <thead className="bg-white/10">
+        <tr>
+          <th className="px-6 py-4 text-left text-sm font-semibold text-gray-300 uppercase tracking-wider">
+            Semester
+          </th>
+          <th className="px-6 py-4 text-left text-sm font-semibold text-gray-300 uppercase tracking-wider">
+            Subject
+          </th>
+          <th className="px-6 py-4 text-center text-sm font-semibold text-gray-300 uppercase tracking-wider">
+            CH
+          </th>
+          <th className="px-6 py-4 text-center text-sm font-semibold text-gray-300 uppercase tracking-wider">
+            Grade
+          </th>
+        </tr>
+      </thead>
+    </>
   );
 };
 

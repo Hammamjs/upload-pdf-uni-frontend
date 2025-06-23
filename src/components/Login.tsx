@@ -1,56 +1,135 @@
-import CustomButton from './shared/CustomButton';
 import { Link } from 'react-router-dom';
-import CustomInput from './shared/CustomInput';
+import { Mail, FileText, LogIn } from 'lucide-react';
+import LoadingAnimation from '../animation/LoadingAnimation';
 import useLogin from '../hooks/useLogin';
+import CustomInput from './shared/CustomInput';
 
 const Login = () => {
-  const { handleLogin, handleSubmit, isSubmitting, register } = useLogin();
+  const { handleLogin, isSubmitting, errors, register, handleSubmit } =
+    useLogin();
+
+  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // const validateForm = () => {
+  //   const newErrors: { [key: string]: string } = {};
+
+  //   if (!formData.email) {
+  //     newErrors.email = 'Email is required';
+  //   } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+  //     newErrors.email = 'Email is invalid';
+  //   }
+
+  //   if (!formData.password) {
+  //     newErrors.password = 'Password is required';
+  //   } else if (formData.password.length < 6) {
+  //     newErrors.password = 'Password must be at least 6 characters';
+  //   }
+
+  //   setErrors(newErrors);
+  //   return Object.keys(newErrors).length === 0;
+  // };
+
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+
+  //   if (!validateForm()) return;
+
+  //   setIsLoading(true);
+
+  //   // Simulate API call
+  //   setTimeout(() => {
+  //     // const userData = {
+  //     //   id: 1,
+  //     //   name: 'Sarah Johnson',
+  //     //   email: formData.email,
+  //     //   studentIndex: 'CS2021001',
+  //     //   department: 'Computer Science',
+  //     //   role: 'user',
+  //     // };
+
+  //     // onLogin(userData);
+  //     setIsLoading(false);
+  //   }, 2000);
+  // };
+
+  if (isSubmitting) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
+          <LoadingAnimation size="lg" color="blue" text="Signing you in..." />
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-[calc(100vh-72px)] flex justify-center items-center">
-      <form
-        onSubmit={handleSubmit(handleLogin)}
-        className="w-[350px] h-[350px] bg-gray-200 p-2 rounded-md shadow-lg text-center"
-      >
-        <h5 className="mt-2">Login to get access!</h5>
+    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        {/* Header */}
 
-        <CustomInput
-          name="email"
-          placeholder="Student email"
-          register={register}
-          className="mt-5"
-          type="email"
-        />
+        <div className="text-center">
+          <div className="flex items-center justify-center space-x-2 mb-6">
+            <FileText className="h-12 w-12 text-blue-400" />
+            <span className="text-3xl font-bold text-white">Digital</span>
+          </div>
+          <h2 className="text-3xl font-bold text-white mb-2">Welcome Back</h2>
+          <p className="text-gray-300">Sign in to your account to continue</p>
+        </div>
 
-        <CustomInput
-          name="password"
-          type="password"
-          placeholder="Password"
-          register={register}
-          className="mt-5"
-        />
+        {/* Login Form */}
+        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
+          <form onSubmit={handleSubmit(handleLogin)} className="space-y-6">
+            <CustomInput
+              Icons={Mail}
+              error={errors.email}
+              label=" Email Address"
+              placeholder="Enter your email"
+              type="text"
+              register={register}
+              name="email"
+            />
 
-        <CustomButton
-          className="bg-gray-white mt-15 mb-10 block mx-auto bg-white shadow-sm w-1/2"
-          isSubmitting={isSubmitting}
-        >
-          <p>Login</p>
-        </CustomButton>
+            {/* Password Field */}
+            <CustomInput
+              error={errors.password}
+              type="password"
+              register={register}
+              name="password"
+            />
 
-        <Link
-          to="/forgot-password"
-          className="hover:underline hover:text-gray-500 block mb-2"
-        >
-          Forgot your password?
-        </Link>
+            {/* Forgot Password Link */}
+            <div className="text-right">
+              <Link
+                to="/forgot-password"
+                className="text-sm text-blue-400 hover:text-blue-300 transition-colors duration-200"
+              >
+                Forgot your password?
+              </Link>
+            </div>
 
-        <Link
-          to="/register"
-          className="mb-auto hover:underline hover:text-gray-500"
-        >
-          Don't have account? create new
-        </Link>
-      </form>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+            >
+              <LogIn className="h-5 w-5" />
+              <span>Sign In</span>
+            </button>
+          </form>
+
+          {/* Register Link */}
+          <div className="mt-6 text-center">
+            <p className="text-gray-300">
+              Don't have an account?{' '}
+              <Link
+                to="/register"
+                className="text-blue-400 hover:text-blue-300 font-medium transition-colors duration-200"
+              >
+                Create new account
+              </Link>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

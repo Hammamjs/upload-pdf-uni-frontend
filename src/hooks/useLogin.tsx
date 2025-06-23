@@ -2,7 +2,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginSchema, LoginSchemaType } from '../validation/LoginSchema';
 import toast from 'react-hot-toast';
-import { login } from '../api/StudentApi';
+import { login } from '../api/AuthApi';
 import axios from 'axios';
 import { useStudent } from '../hooks/useStudent';
 import { useEffect } from 'react';
@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 const useLogin = () => {
   useEffect(() => {
     if (!navigator.onLine) toast.error('Check your internet 📶');
+    if (!isExistInLocalStorage('studentInfo')) toast('Please signin');
   }, []);
 
   const { updateStudentData } = useStudent();
@@ -33,7 +34,7 @@ const useLogin = () => {
   const {
     register,
     reset,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
     handleSubmit,
   } = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
@@ -59,6 +60,7 @@ const useLogin = () => {
     isSubmitting,
     handleSubmit,
     handleLogin,
+    errors,
   };
 };
 

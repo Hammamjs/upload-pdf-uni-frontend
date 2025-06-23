@@ -10,7 +10,7 @@ const FileCard = ({
   semester,
   year,
   department,
-  createAt,
+  uploadedAt,
   handleDelete,
   subject,
 }: FileCardType) => {
@@ -39,7 +39,7 @@ const FileCard = ({
           detailsIsVisible ? 'h-48 p-1' : 'h-0'
         } transition-all duration-150`}
       >
-        <p className="mt-1">uploaded At: {formatDate(createAt)}</p>
+        <p className="mt-1">uploaded At: {formatDate(uploadedAt)}</p>
         <p className="mt-1">
           {departments.length > 1 ? 'Departments' : 'Department'}:{' '}
           {departments.join(' ,')}

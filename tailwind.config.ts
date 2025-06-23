@@ -3,8 +3,16 @@ const config: Config = {
   content: ['./src/**/*.{html,css,tsx,ts}'],
   theme: {
     extend: {
-      animation: {},
-      keyframes: {},
+      animation: {
+        type: 'type 2s ease-in-out infinite',
+      },
+      keyframes: {
+        type: {
+          to: {
+            width: '100%',
+          },
+        },
+      },
     },
   },
   plugins: [],

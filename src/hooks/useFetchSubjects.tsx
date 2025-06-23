@@ -1,33 +1,47 @@
-import { useEffect, useState } from 'react';
-import type { SubjectDetails } from '../types';
+import type { SubjectType } from '../types';
 import useSWR from 'swr';
-import { urlEndpoint as cacheKey } from '../api/StudentApi';
-import { getStudentPdfSemester } from '../api/FileApi';
+import { urlEndpoint as cacheKey } from '../api/UrlEndpoint';
+import { getStudentFiles } from '../api/FileApi';
+import { useStudent } from './useStudent';
 
 const useFetchSubjects = () => {
-  const [subjectName, setSubjectName] = useState<string[]>();
+  // const [subjects, setSubjects] = useState<SubjectType[]>([]);
+  const { student } = useStudent();
 
-  const { isLoading, data: files } = useSWR<SubjectDetails[]>(
+  const { isLoading, data: files } = useSWR<SubjectType[]>(
     cacheKey,
-    getStudentPdfSemester
+    getStudentFiles,
+    {
+      suspense: true,
+    }
   );
 
-  useEffect(() => {
-    if (files?.length) {
-      // create empty arr to hold ONLY subject name
-      const subNames = [] as string[];
-      // return only subject name
-      files?.map((sub: SubjectDetails) => {
-        if (!subNames.includes(sub.subject)) subNames.push(sub.subject);
-      });
+  const exisitingSubject = files?.reduce((acc, cur) => {
+    if (!acc.includes(cur.subject)) acc.push(cur.subject);
+    return acc;
+  }, [] as string[]);
 
-      setSubjectName(subNames);
-    }
-  }, [files]);
+  // useEffect(() => {
+  //   if (files?.length) {
+  //     // create empty arr to hold ONLY subject name
+  //     // const subDetails: SubjectDetails[] = [];
+  //     console.log('Files and covers');
+
+  //     const filtedredSub = files.filter(
+  //       (file) =>
+  //         file.year === student?.year &&
+  //         file.semester === student.semester &&
+  //         file.departments.includes(student?.department || 'Computer Science')
+  //     );
+  //     setSubjects(filtedredSub);
+  //   }
+  // }, [files]);
 
   return {
-    subjectName,
+    files,
     isLoading,
+    studentName: student?.name.split(' ')[0],
+    filterBySubject: exisitingSubject,
   };
 };
 

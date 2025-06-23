@@ -8,13 +8,15 @@ const useStudentResult = () => {
   const arrayOfGrades = useRef<string[]>(null);
   const { student } = useStudent();
 
-  const { data: result, isLoading } = useSWR<ResultDataType>(
-    'student-result',
-    studentRes,
-    {
-      onSuccess: () => toast.success('Result retrived'),
-    }
-  );
+  const {
+    data: result,
+    isLoading,
+    mutate,
+    isValidating,
+  } = useSWR<ResultDataType>('student-result', studentRes, {
+    onSuccess: () => toast.success('Result retrived'),
+    suspense: true,
+  });
 
   useEffect(() => {
     arrayOfGrades.current =
@@ -23,13 +25,18 @@ const useStudentResult = () => {
           acc.push(current.grade);
         return acc;
       }, [] as string[]) || [];
+    console.log(arrayOfGrades.current);
+    console.log(result?.res);
   }, [isLoading]);
 
+  // console.log(result?.res.grades.slice(0, -2));
   return {
     isLoading,
     student,
     arrayOfGrades,
     result,
+    handleRefresh: mutate,
+    isValidating,
   };
 };
 

@@ -1,146 +1,49 @@
-import axios from 'axios';
+import {
+  DepartmentsType,
+  SemesterType,
+  YearType,
+} from '@/context/StudentContext';
+import { createInstancePoint, urlEndpoint } from './UrlEndpoint';
 
 export type StudentType = {
-  name: string;
+  studentName: string;
   studentIdx: string;
   email: string;
-  year: string;
-  department: string;
-  semester: string;
+  year: YearType;
+  department: DepartmentsType;
+  semester: SemesterType;
   password?: string;
   confirmPassword?: string;
 };
 
-export const urlEndpoint = 'https://upload-pdf-uni-backend.onrender.com/api/v1';
-
-export const createInstancePoint = axios.create({
-  baseURL: urlEndpoint,
-});
-
-export const SingUp = async ({
-  name,
-  studentIdx,
-  year,
-  semester,
-  department,
-  email,
-  password,
-  confirmPassword,
-}: StudentType) => {
-  const response = await createInstancePoint.post(
-    urlEndpoint + '/auth/register',
-    {
-      name,
-      studentIdx,
-      year,
-      semester,
-      department,
-      email,
-      password,
-      confirmPassword,
-    },
-    { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
-  );
-
-  return response.data;
-};
-
-export const login = async (email: string, password: string) => {
-  const response = await createInstancePoint.post(
-    urlEndpoint + '/auth',
-    {
-      email,
-      password,
-    },
-    { withCredentials: true }
-  );
-
-  return response.data;
-};
-
-export const logout = async (email: string) => {
-  const response = await createInstancePoint.post(
-    urlEndpoint + '/auth/logout',
-    { email },
-    {
-      withCredentials: true,
-    }
-  );
-
-  return response.data;
-};
-
-export const studentForgotPass = async (email: string) => {
-  const response = await createInstancePoint.post(
-    urlEndpoint + '/auth/forgot-password',
-    {
-      email,
-    }
-  );
-
-  return response.data;
-};
-
-export const resetCodeVerification = async (resetCode: string) => {
-  const response = await createInstancePoint.post(
-    urlEndpoint + '/auth/verify-code',
-    { resetCode }
-  );
-
-  return response.data;
-};
-
-export const resetPassword = async (
-  email: string,
-  newPassword: string,
-  confirmPassword: string
-) => {
-  const response = await createInstancePoint.patch(
-    urlEndpoint + '/auth/reset-password',
-    { email, newPassword, confirmPassword }
-  );
-
-  return response.data;
-};
-
 export const studentRes = async () => {
-  const response = await createInstancePoint.get(urlEndpoint + '/result', {
-    withCredentials: true,
-  });
+  const response = await createInstancePoint.get(urlEndpoint + '/result');
 
   return response.data;
 };
 
 export const updateStudentData = async ({
-  name,
+  studentName,
   studentIdx,
   email,
   year,
   department,
   semester,
 }: StudentType) => {
-  const response = await createInstancePoint.put(
-    urlEndpoint + '/students',
-    {
-      name,
-      studentIdx,
-      email,
-      year,
-      department,
-      semester,
-    },
-    {
-      withCredentials: true,
-    }
-  );
+  const response = await createInstancePoint.put(urlEndpoint + '/students', {
+    name: studentName,
+    studentIdx,
+    email,
+    year,
+    department,
+    semester,
+  });
 
   return response.data;
 };
 
 export const getStudents = async () => {
-  const response = await createInstancePoint.get(urlEndpoint + '/students', {
-    withCredentials: true,
-  });
+  const response = await createInstancePoint.get(urlEndpoint + '/students');
 
   return response.data;
 };
@@ -149,29 +52,27 @@ export const changeStudentRole = async (
   email: string,
   role: 'Student' | 'Admin'
 ) => {
-  const response = await createInstancePoint.put(
-    urlEndpoint + '/students',
-    { email, role },
-    { withCredentials: true }
-  );
+  const response = await createInstancePoint.put(urlEndpoint + '/students', {
+    email,
+    role,
+  });
 
   return response.data;
 };
 
 export const studentNotifications = async () => {
   const response = await createInstancePoint.get(
-    urlEndpoint + '/notifications',
-    { withCredentials: true }
+    urlEndpoint + '/notifications'
   );
+
+  console.log('Response ', response.data);
 
   return response.data;
 };
 
 export const markNotificationAsRead = async () => {
   const response = await createInstancePoint.post(
-    urlEndpoint + '/notifications/read',
-    {},
-    { withCredentials: true }
+    urlEndpoint + '/notifications/read'
   );
 
   return response.data;

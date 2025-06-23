@@ -1,12 +1,11 @@
-import { createInstancePoint, urlEndpoint } from './StudentApi';
+import { Dispatch, SetStateAction } from 'react';
+import { createInstancePoint, urlEndpoint } from './UrlEndpoint';
 
-export const getStudentPdfSemester = async (subject?: string) => {
+export const getStudentPdfSemester = async () => {
   try {
     const response = await createInstancePoint.get(
-      urlEndpoint + `/file/student-file?${subject}`,
-      {
-        withCredentials: true,
-      }
+      ///student-file?${subject}
+      urlEndpoint + `/subject`
     );
 
     return response.data;
@@ -16,14 +15,19 @@ export const getStudentPdfSemester = async (subject?: string) => {
   }
 };
 
+export const getStudentFiles = async () => {
+  const response = await createInstancePoint.get(
+    urlEndpoint + '/file/student-file'
+  );
+
+  return response.data;
+};
+
 // Student subject
 export const getStudentSubject = async (subject?: string) => {
   try {
     const response = await createInstancePoint.get(
-      urlEndpoint + `/file?subject=${subject}`,
-      {
-        withCredentials: true,
-      }
+      urlEndpoint + `/file?subject=${subject}`
     );
 
     return response.data;
@@ -34,22 +38,32 @@ export const getStudentSubject = async (subject?: string) => {
 };
 
 // Upload pdf file to server
-export const uploadFile = async (formData: FormData) => {
+export const uploadFile = async (
+  formData: FormData,
+  setProgress: Dispatch<SetStateAction<number>>
+) => {
   const response = await createInstancePoint.post(
-    urlEndpoint + '/file/',
+    urlEndpoint + '/file',
     formData,
     {
-      withCredentials: true,
+      onUploadProgress: (ProgressEvent) => {
+        const percentMethod = Math.round(
+          (ProgressEvent.loaded * 100) / (ProgressEvent.total || 1)
+        );
+        setProgress(percentMethod);
+        // reset progressbar
+        setTimeout(() => {
+          setProgress(0);
+        }, 1000);
+      },
     }
   );
 
-  return response.data;
+  return response;
 };
 
 export const getAllPdfs = async () => {
-  const response = await createInstancePoint.get(urlEndpoint + '/file', {
-    withCredentials: true,
-  });
+  const response = await createInstancePoint.get(urlEndpoint + '/file');
 
   return response.data;
 };
@@ -57,10 +71,7 @@ export const getAllPdfs = async () => {
 // Delete file from server
 export const deleteFile = async (id: string) => {
   const response = await createInstancePoint.delete(
-    urlEndpoint + `/file/${id}`,
-    {
-      withCredentials: true,
-    }
+    urlEndpoint + `/file/${id}`
   );
 
   return response.data;
@@ -85,23 +96,10 @@ export const getAllSubjects = async () => {
 };
 
 // Add new subject
-export const addNewSubject = async (
-  departments: string[],
-  year: string,
-  semester: string,
-  subject: string
-) => {
+export const addNewSubject = async (formData: FormData) => {
   const response = await createInstancePoint.post(
     urlEndpoint + '/subject',
-    {
-      departments,
-      semester,
-      year,
-      subject,
-    },
-    {
-      withCredentials: true,
-    }
+    formData
   );
 
   return response.data;
@@ -109,10 +107,7 @@ export const addNewSubject = async (
 
 export const deleteSubject = async (id: string) => {
   const response = await createInstancePoint.delete(
-    urlEndpoint + `/subject/${id}`,
-    {
-      withCredentials: true,
-    }
+    urlEndpoint + `/subject/${id}`
   );
 
   return response.data;

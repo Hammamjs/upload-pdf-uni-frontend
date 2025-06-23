@@ -1,15 +1,28 @@
 import { ReactElement, useState } from 'react';
 import { createContext } from 'react';
+import { getLocalstorage } from '../lib/LocalStorage';
+
+export type DepartmentsType =
+  | 'Networks'
+  | 'Computer Science'
+  | 'Math'
+  | 'Statisitc'
+  | 'Information Techenology';
+
+export type SemesterType = '1st' | '2nd';
+
+export type YearType = '1st' | '2nd' | '3rd' | '4th' | '5th';
 
 export type Student = {
   name: string;
   email: string;
-  department: string;
-  semester: string;
-  year: string;
+  department: DepartmentsType;
+  semester: SemesterType;
+  year: YearType;
   studentIdx: string;
   role: string;
-  id: string;
+  _id: string;
+  active: boolean;
 };
 
 export type StudentType = {
@@ -31,15 +44,14 @@ export const StudentProvider = ({
 }: {
   children: ReactElement | ReactElement[];
 }) => {
-  const [student, setStudent] = useState<Student>({
-    name: '',
-    email: '',
-    year: '',
-    department: '',
-    studentIdx: '',
-    semester: '',
-    role: '',
-    id: '',
+  const [student, setStudent] = useState<Student>(() => {
+    try {
+      const stored = getLocalstorage('studentInfo');
+      return stored ? JSON.parse(stored) : null;
+    } catch (e) {
+      console.error('Failed to parse student from localstorage ', e);
+      return null;
+    }
   });
 
   const updateStudent = (filed: keyof Student, value: string): void => {

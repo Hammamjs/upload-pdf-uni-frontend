@@ -1,11 +1,9 @@
-import { SelectSubs } from '../components/SelectSubs';
+import StudyMaterials from '../components/SelectMaterials';
 
 const Subjects = () => {
   return (
-    <div className="container gap-1 p-3 mx-auto min-h-[calc(100vh-80px)] flex justify-center items-center">
-      <div className="">
-        <SelectSubs />
-      </div>
+    <div>
+      <StudyMaterials />
     </div>
   );
 };

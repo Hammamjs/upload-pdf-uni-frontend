@@ -1,17 +1,36 @@
-import { ChangeEvent, ReactElement } from 'react';
+import { LucideIcon } from 'lucide-react';
+import { File } from 'node:buffer';
+import { ChangeEvent, ReactElement, RefObject } from 'react';
 import { UseFormRegister } from 'react-hook-form';
 
 export type InputProps = {
   type: string;
-  className?: string;
-  register: UseFormRegister<any>;
-  placeholder: string;
-  name: string;
-  id?: string;
-  handleChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
-  children?: ReactElement;
+  error: FieldError | undefined;
+  Icons?: LucideIcon;
+  label?: string;
+  register?: UseFormRegister<any>;
+  placeholder?: string;
+  name?: string;
+  dragActive?: boolean;
+  handleDrag?: (e: React.DragEvent) => void;
+  handleFileInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleDrop?: (e: React.DragEvent) => void;
+  fileInputRef?: RefObject<HTMLInputElement | null>;
+  formData?: UploadFormData;
+  removeFile?: () => void;
+  handleOnChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  isDisabled?: boolean;
+  file?: File;
 };
+
+export interface UploadFormData {
+  subject: subject;
+  title: string;
+  year: string;
+  semester: string;
+  file: File | null;
+  departments?: string[];
+}
 
 export type CustomInputProps = {
   type?: string;
@@ -28,10 +47,10 @@ export type CustomInputProps = {
 };
 
 export type InputPasswordProps = {
-  className?: string;
   name: string;
-  placeholder: string;
-  register: UseFormRegister<any>;
+  register?: UseFormRegister<any>;
+  errors: FieldError | undefined;
+  placeholder?: string;
 };
 
 export type InputFileType = {
@@ -48,8 +67,9 @@ export type FileCardType = {
   year: string;
   department: string[];
   subject: string;
-  createAt: Date;
+  uploadedAt: Date;
   semester: '1st' | '2nd';
+  _id: string;
   handleDelete: () => void;
 };
 
@@ -84,10 +104,10 @@ export type FileType = {
 export type NotificationsType = {
   message: string;
   subject: string;
-  read: boolean;
+  isRead: boolean;
   createdAt: Date;
   studentId?: string;
-  _id?: string;
+  _id: string;
 };
 
 export type ResultProps = {
@@ -132,7 +152,7 @@ export type StudentsType = {
   name: string;
   role: 'Admin' | 'Student';
   email: string;
-}[];
+};
 
 export type StudentStatusType = {
   name: string;
@@ -151,6 +171,7 @@ export type ResultDataType = {
       semester: string;
       subject: string;
     }[];
+    remark: string;
     name: string;
   };
 };
@@ -162,27 +183,33 @@ export type CurrentType = {
   semester: string;
   subject: string;
 };
-export type SubjectDetails = {
-  subject: string;
-  content: string;
-  createAt: Date;
-  createdAt: Date;
-  department: string[];
-  fileId: string;
-  pdfCover: string;
-  semester: string;
-  title: string;
-  updatedAt: string;
-  view: string;
-  year: string;
-  _id: string;
-};
+// export type SubjectDetails = {
+//   subject: string;
+//   content: string;
+//   createAt: Date;
+//   createdAt: Date;
+//   departments: string[];
+//   fileId: string;
+//   imgCover: string;
+//   semester: string;
+//   title: string;
+//   updatedAt: string;
+//   view: string;
+//   year: string;
+//   _id: string;
+// };
 
 export type SubjectType = {
-  name: string;
+  subject: string;
+  title: string;
   year: string;
   departments: string[];
   semester: '1st' | '2nd';
   _id: string;
-  createdAt: Date;
+  imgCover: string;
+  uploadedAt: Date;
+  filedId: string;
+  view: string;
+  content: string;
+  size: number;
 };

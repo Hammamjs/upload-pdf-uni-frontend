@@ -6,45 +6,41 @@ import {
 } from '../api/StudentApi';
 import { useStudent } from './useStudent';
 import toast from 'react-hot-toast';
-import axios from 'axios';
 import useSWR from 'swr';
 import { NotificationsType } from '../types';
-import { useLocation } from 'react-router-dom';
 
 const useNotificationSystem = () => {
   const { student } = useStudent();
   const [notificationsNumber, setNotificationNumber] = useState(0);
   const [notifications, setNotifications] = useState<NotificationsType[]>([]);
 
-  // get current location
-  const { pathname } = useLocation();
-
   const {
     isLoading,
     data: notificationsData,
     mutate,
-  } = useSWR('notification', studentNotifications);
+  } = useSWR<NotificationsType[]>('notification', studentNotifications);
 
   // assign data to notifications
   useEffect(() => {
-    setNotifications(notificationsData);
+    setNotifications(notificationsData || []);
+    console.log(notificationsData);
   }, [isLoading]);
 
   useEffect(() => {
     const unreadMessages = notifications?.filter(
-      (notify: { read: boolean }) => !notify.read
+      (notify) => !notify.isRead
     ).length;
     setNotificationNumber(unreadMessages || 0);
   }, [notifications]);
 
   useEffect(() => {
-    if (!student?.id) return;
+    if (!student?._id) return;
 
     const socket = io('http://localhost:3500');
 
     // socketRef.current = socket;
 
-    if (student && student.id) socket.emit('joinRoom', student.id);
+    if (student && student._id) socket.emit('joinRoom', student._id);
 
     socket.on('notification', (data) => {
       setNotifications((prev) => [data, ...prev]);
@@ -54,25 +50,37 @@ const useNotificationSystem = () => {
     return () => {
       socket.disconnect();
     };
-  }, [student?.id]);
+  }, [student?._id]);
 
-  useEffect(() => {
-    const AllMessagesRead = async () => {
-      try {
-        const response = await markNotificationAsRead();
-        mutate();
-        toast.success(response.message);
-      } catch (err) {
-        if (axios.isAxiosError(err)) toast.error(err.response?.data?.message);
-      }
-    };
+  const markAllAsRead = async () => {
+    const response = await markNotificationAsRead();
+    mutate();
+    toast.success(response.message);
+    setNotifications((prev) =>
+      prev.map((notification) => ({ ...notification, isRead: true }))
+    );
+  };
 
-    if (pathname === '/notifications') AllMessagesRead();
-  }, []);
+  const markAsRead = (id: string) => {
+    setNotifications((prev) =>
+      prev.map((notification) =>
+        notification._id === id
+          ? { ...notification, isRead: true }
+          : notification
+      )
+    );
+  };
+
+  const handleViewFile = (notification: NotificationsType) => {
+    markAsRead(notification._id);
+    // navigate(notification.fileUrl);
+  };
 
   return {
     notifications,
-    notificationsNumber,
+    unreadCount: notificationsNumber,
+    markAllAsRead,
+    handleViewFile,
   };
 };
 

@@ -1,55 +1,59 @@
-import type { CustomInputProps } from '../../types';
+import type { InputProps } from '../../types';
 import InputField from './InputField';
 import InputFileType from './InputFileType';
 import InputPasswordType from './InputPasswordType';
 
 const CustomInput = ({
-  type = 'text',
-  className,
+  type = 'text', // Default value
   placeholder,
   register,
-  onChange,
+  Icons,
+  error,
+  label,
   name,
-  message,
-  labelClassName,
-  id,
-  handleKeyDown,
-  children,
-}: CustomInputProps) => {
+  dragActive,
+  fileInputRef,
+  formData,
+  handleDrag,
+  handleDrop,
+  handleFileInputChange,
+  removeFile,
+  file,
+}: InputProps) => {
   switch (type) {
     case 'file':
       return (
         <InputFileType
-          name={name}
-          onChange={onChange}
-          id={id!}
-          labelClassName={labelClassName}
-          message={message!}
-          register={register}
+          dragActive={dragActive}
+          fileInputRef={fileInputRef}
+          formData={formData}
+          handleDrag={handleDrag}
+          handleDrop={handleDrop}
+          handleFileInputChange={handleFileInputChange}
+          removeFile={removeFile}
+          file={file!}
         />
       );
     case 'password':
       return (
         <InputPasswordType
           register={register}
-          className={className}
-          name={name}
-          placeholder={placeholder!}
+          name={name ? name : 'pass'}
+          errors={error}
+          placeholder={placeholder}
         />
       );
     default:
       return (
         <InputField
-          className={className}
           name={name}
           placeholder={placeholder!}
           register={register}
           type="text"
-          handleChange={(e) => onChange?.(e)}
-          handleKeyDown={handleKeyDown}
-        >
-          {children}
-        </InputField>
+          Icons={Icons}
+          error={error}
+          label={label}
+        />
       );
   }
 };

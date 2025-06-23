@@ -3,7 +3,7 @@ import AddSubject from '../components/AddSubject';
 
 const AddSubjectPage = () => {
   return (
-    <div className="h-full min-h-[calc(100vh-80px)]">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="container mx-auto">
         <AddSubject />
         <Toaster position="top-right" />

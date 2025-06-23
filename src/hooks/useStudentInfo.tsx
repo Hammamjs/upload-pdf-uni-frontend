@@ -13,10 +13,11 @@ import { addToLocalstorage } from '../lib/LocalStorage';
 
 const useStudentInfo = () => {
   const { student, updateStudentData: updateStudentInfo } = useStudent();
-
-  const [year, setYear] = useState(student!.year);
-  const [department, setDepartment] = useState(student!.department);
-  const [semester, setSemester] = useState(student!.semester);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
 
   const {
     register,
@@ -25,35 +26,63 @@ const useStudentInfo = () => {
   } = useForm<updateStudentValidation>({
     resolver: zodResolver(updateStudentSchema),
     defaultValues: {
-      studentIdx: student?.studentIdx,
-      email: student?.email,
       studentname: student?.name,
+      email: student?.email,
+      index: student?.studentIdx,
+      department: student?.department,
+      year: student?.year,
+      semester: student?.semester,
     },
   });
 
   const validation = () => {
+    console.log(errors);
     if (errors.studentname?.message) {
       toast.error(errors.studentname.message);
+      return;
     }
 
-    if (errors.studentIdx?.message) {
-      toast.error(errors.studentIdx.message);
+    if (errors.index?.message) {
+      toast.error(errors.index.message);
+      return;
     }
 
-    if (errors.email?.message) {
-      toast.error(errors.email.message);
+    if (errors.currentPassword?.message) {
+      toast.error(errors.currentPassword.message);
+      return;
+    }
+    if (errors.newPassword?.message) {
+      toast.error(errors.newPassword.message);
+      return;
+    }
+    if (errors.confirmPassword?.message) {
+      toast.error(errors.confirmPassword.message);
+      return;
+    }
+    if (errors.year?.message) {
+      toast.error(errors.year.message);
+      return;
+    }
+    if (errors.department?.message) {
+      toast.error(errors.department.message);
+      return;
+    }
+    if (errors.semester?.message) {
+      toast.error(errors.semester.message);
+      return;
     }
   };
 
-  const changeStudentData = async (data: FieldValues) => {
+  const updateStudentInformation = async (data: FieldValues) => {
+    validation();
+    setIsLoading(true);
     const updatedStudentInfo: StudentType = {
-      ...student,
-      name: data.studentname,
+      ...student!,
       email: data.email,
-      studentIdx: data.studentIdx,
-      year,
-      department,
-      semester,
+      studentName: data.studentName,
+      year: data.year,
+      semester: data.semester,
+      department: data.department,
     };
 
     try {
@@ -64,21 +93,21 @@ const useStudentInfo = () => {
     } catch (err) {
       if (axios.isAxiosError(err)) toast.error(err?.response?.data?.message);
     }
+    setIsLoading(false);
   };
 
   return {
     student,
-    year,
-    semester,
-    department,
-    setYear,
-    setDepartment,
-    setSemester,
     register,
     isSubmitting,
     handleSubmit,
     validation,
-    changeStudentData,
+    updateStudent: updateStudentInformation,
+    isLoading,
+    errors,
+    isEditing,
+    handleCancel,
+    setIsEditing,
   };
 };
 

@@ -8,7 +8,7 @@ const FileOptions = () => {
 
   return (
     <div className="px-2">
-      <Search
+      {/* <Search
         searchByPlaceholder="Type file subject..."
         student={(e) => setSearchKeyWord(e.target.value)}
       />
@@ -16,10 +16,11 @@ const FileOptions = () => {
         <p>wait min...</p>
       ) : (
         files?.map(
-          ({ _id, title, year, department, semester, createAt, subject }) => (
+          ({ _id, title, year, department, semester, uploadedAt, subject }) => (
             <FileCard
+              _id={_id}
               key={_id}
-              createAt={createAt}
+              uploadedAt={uploadedAt}
               title={title}
               year={year}
               department={department}
@@ -29,7 +30,7 @@ const FileOptions = () => {
             />
           )
         )
-      )}
+      )} */}
     </div>
   );
 };

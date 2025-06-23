@@ -26,6 +26,8 @@ export const useNav = () => {
     if (pathTo === '/login') {
       setHideLinks(true);
       logoutFunc();
+      clearFromLocalstorage('studentInfo');
+      window.location.reload();
     } else setHideLinks(true);
   };
   return {
@@ -33,6 +35,6 @@ export const useNav = () => {
     setHideLinks,
     notificationsNumber,
     handleLogout,
-    studentRole: student!.role,
+    studentRole: student?.role,
   };
 };

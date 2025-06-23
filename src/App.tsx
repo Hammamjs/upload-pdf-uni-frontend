@@ -13,7 +13,7 @@ const UploadFile = lazy(() => import('./pages/UploadFile'));
 const StudentResult = lazy(() => import('./pages/StudentResultPage'));
 const FileOptionsPage = lazy(() => import('./pages/FileOptionsPage'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
-const ResetCodePage = lazy(() => import('./pages/ResetCodePage'));
+const VerificationPassword = lazy(() => import('./pages/VerificationPassword'));
 const ResetPasswordPage = lazy(() => import('./pages/ResetPasswordPage'));
 const StudentInformation = lazy(() => import('./pages/StudentInformation'));
 const SpecificYearPage = lazy(() => import('./pages/SpecificYearPage'));
@@ -50,7 +50,7 @@ function App() {
         </Route>
 
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-code" element={<ResetCodePage />} />
+        <Route path="/verify-code" element={<VerificationPassword />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
 
         <Route path="*" element={<NotFound />} />

@@ -1,10 +1,10 @@
 import { Toaster } from 'react-hot-toast';
-import FileInfo from '../components/FileInfo';
+import UploadFileDetails from '../components/FileInfo';
 
 const UploadFile = () => {
   return (
-    <div className="container p-2 mx-auto min-h-[calc(100vh-60px)] h-full relative">
-      <FileInfo />
+    <div className="p-2 mx-aut h-full relative bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      <UploadFileDetails />
       <Toaster position="top-right" />
     </div>
   );

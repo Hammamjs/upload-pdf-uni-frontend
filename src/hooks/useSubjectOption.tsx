@@ -9,19 +9,29 @@ const useSubjectOption = () => {
   const nav = useNavigate();
 
   const handleAddNewSubject = async (
-    departments: string[],
-    semester: string,
     year: string,
-    subject: string
+    semester: string,
+    departments: string[],
+    name: string
   ) => {
+    const formData = new FormData();
+
+    formData.append('year', String(year));
+    formData.append('semester', String(semester));
+    formData.append('name', String(name));
+
+    // set all departmens
+    departments.forEach((dep) => {
+      formData.append('departments[]', dep);
+    });
+
+    formData.forEach((data) => {
+      console.log(data);
+    });
+
     setIsLoading(true);
     try {
-      const newSubject = await addNewSubject(
-        departments,
-        semester,
-        year,
-        subject
-      );
+      const newSubject = await addNewSubject(formData);
       toast.success(newSubject.message);
       setTimeout(() => nav('/subject-options'), 800);
     } catch (err) {

@@ -1,72 +1,167 @@
-import { FaBell, FaXmark } from 'react-icons/fa6';
-import CustomLink from './shared/CustomLink';
-import { FaBars } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import { LINKS } from '../data/navLinksArr';
-import { useNav } from '../hooks/useNav';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import {
+  Menu,
+  X,
+  Bell,
+  Home,
+  GraduationCap,
+  Upload,
+  Users,
+  FileText,
+  UserCog,
+  BookOpen,
+  Plus,
+  Settings,
+  LogOut,
+} from 'lucide-react';
+import { navItems } from '../data/navLinksArr';
+import { useStudent } from '@/hooks/useStudent';
+import useNotificationSystem from '@/hooks/useNotificationSystem';
 
-const Nav = () => {
-  const {
-    handleLogout,
-    hideLinks,
-    notificationsNumber,
-    setHideLinks,
-    studentRole,
-  } = useNav();
+const iconMap = {
+  Home,
+  GraduationCap,
+  Upload,
+  Users,
+  FileText,
+  UserCog,
+  BookOpen,
+  Plus,
+  Settings,
+  LogOut,
+};
+
+const Navigation = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const { student } = useStudent();
+  const { unreadCount } = useNotificationSystem();
+
+  // Filter links based on user role
+  const allowedLinks = navItems.filter((link) =>
+    link.role.includes(student?.role || '')
+  );
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleNotificationClick = () => {
+    navigate('/notifications');
+  };
+
+  const IconComponent = ({ iconName }: { iconName: string }) => {
+    const Icon = iconMap[iconName as keyof typeof iconMap];
+    return Icon ? <Icon className="h-5 w-5" /> : null;
+  };
 
   return (
-    <div className="w-full bg-gray-400 p-3 relative">
-      <div className="container mx-auto flex justify-between text-gray-500 md:flex-row flex-col items-center">
-        <CustomLink
-          to="University of Bahri"
-          path="/"
-          className=" hover:text-white transition"
-        />
-        <div className="flex justify-between items-center">
-          <Link to="/notifications">
-            <div className="notify relative">
-              <FaBell className="mr-2 cursor-pointer" />
-              {notificationsNumber > 0 ? (
-                <p className="`content-[''] absolute -top-1 right-2.5 text-white text-[8px] w-2.5 h-2.5 rounded-full bg-red-400 flex justify-center items-center">
-                  {notificationsNumber}
-                </p>
-              ) : (
-                ''
-              )}
+    <nav className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+      <div className="mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-blue-600 rounded-lg">
+              <GraduationCap className="h-6 w-6 text-white" />
             </div>
-          </Link>
-          <FaBars
-            className="hover:text-white cursor-pointer transition"
-            onClick={() => setHideLinks((prev) => !prev)}
-          />
-        </div>
-        <div
-          className={`absolute top-0 bg-white shadow-lg h-screen w-50 px-3 py-10 z-40 transition-all duration-150 ${
-            hideLinks ? '-left-full' : 'left-0'
-          }`}
-        >
-          <FaXmark
-            className="absolute right-5 top-5 cursor-pointer hover:text-red-300 p-1 text-xl transition"
-            onClick={() => setHideLinks(true)}
-          />
-          <ul className="list-none flex flex-col items-start gap-3 md:text-sm text-xs">
-            {LINKS.map(
-              ({ path, to, role }) =>
-                role.includes(studentRole) && (
-                  <CustomLink
-                    key={path}
-                    path={to}
-                    to={path}
-                    hideNav={() => handleLogout(to)}
-                    className="hover:text-gray-400 transition-all select-none w-full p-1 hover:px-3"
-                  />
-                )
+            <span className="text-xl font-bold text-gray-900">
+              Digital library
+            </span>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-1">
+            {allowedLinks.slice(0, 4).map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+              >
+                <IconComponent iconName={link.icon} />
+                {link.path}
+              </Link>
+            ))}
+          </div>
+
+          {/* Right Side - Notifications and Menu */}
+          <div className="flex items-center gap-3">
+            {/* Notification Bell */}
+            {student !== null && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleNotificationClick}
+                className="relative p-2"
+              >
+                <Bell className="h-5 w-5 text-gray-600 cursor-pointer" />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                    {unreadCount}
+                  </span>
+                )}
+              </Button>
             )}
-          </ul>
+
+            {/* Mobile Menu Button */}
+            {student !== null && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleMenu}
+                className="md:hidden p-2 "
+              >
+                {isMenuOpen ? (
+                  <X className="h-5 w-5" />
+                ) : (
+                  <Menu className="h-5 w-5" />
+                )}
+              </Button>
+            )}
+
+            {/* Desktop Menu Button */}
+            {student !== null && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleMenu}
+                className="hidden md:flex p-2"
+              >
+                <Menu className="h-5 w-5 cursor-pointer" />
+              </Button>
+            )}
+          </div>
         </div>
+
+        {/* Mobile/Toggle Menu */}
+        {isMenuOpen && (
+          <div className="md:absolute md:right-4 md:top-16 md:w-80 pb-4 md:pb-0">
+            <Card className="md:shadow-lg md:border">
+              <div className="p-4 space-y-2">
+                <h3 className="font-semibold text-gray-900 mb-3">
+                  Navigation Menu
+                </h3>
+                {allowedLinks.map((link) => (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors w-full"
+                  >
+                    <IconComponent iconName={link.icon} />
+                    {link.path}
+                  </Link>
+                ))}
+              </div>
+            </Card>
+          </div>
+        )}
       </div>
-    </div>
+    </nav>
   );
 };
 
-export default Nav;
+export default Navigation;

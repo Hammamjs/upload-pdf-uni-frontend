@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getAllPdfs } from '../api/FileApi';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import type { FileType } from '../types';
+import type { FileCardType, FileType } from '../types';
 import useSWR from 'swr';
 import {
   deleteMutation as deleteFile,
@@ -10,7 +10,7 @@ import {
 } from '../helpers/FileMutations';
 
 const useFileOptions = () => {
-  const [filteredFiles, setFilteredFiles] = useState<FileType[]>([]);
+  const [filteredFiles, setFilteredFiles] = useState<FileCardType[]>([]);
   const [searchKeyWord, setSearchKeyWord] = useState<string>('');
 
   const {
@@ -56,7 +56,7 @@ const useFileOptions = () => {
   }, [searchKeyWord]);
 
   return {
-    files: filteredFiles?.sort((a, b) => a.title.localeCompare(b.title)),
+    files: filteredFiles?.sort((a, b) => b.title.localeCompare(a.title)),
     setSearchKeyWord,
     deleteFileFromDrive,
     isLoading,
