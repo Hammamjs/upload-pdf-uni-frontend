@@ -36,7 +36,12 @@ const useNotificationSystem = () => {
   useEffect(() => {
     if (!student?._id) return;
 
-    const socket = io('http://localhost:3500');
+    const envDev = import.meta.env.DEV
+      ? import.meta.env.VITE_DEV_URL
+      : import.meta.env.VITE_PROD_URL;
+
+    // console.log(envDev);
+    const socket = io(envDev);
 
     // socketRef.current = socket;
 

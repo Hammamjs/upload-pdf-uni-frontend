@@ -3,7 +3,13 @@ import { clearFromLocalstorage } from '../lib/LocalStorage';
 
 // dev ENV localhost:3500/
 // prod ENV https://upload-pdf-uni-backend.onrender.com
-export const urlEndpoint = 'http://localhost:3500/api/v1';
+export let urlEndpoint = 'http://localhost:3500/api/v1';
+
+if (import.meta.env.DEV) {
+  urlEndpoint = 'http://localhost:3500/api/v1';
+} else {
+  urlEndpoint = 'https://upload-pdf-uni-backend.onrender.com/api';
+}
 
 export const createInstancePoint = axios.create({
   baseURL: urlEndpoint,
