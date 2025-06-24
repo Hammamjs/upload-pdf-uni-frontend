@@ -37,8 +37,8 @@ const useNotificationSystem = () => {
     if (!student?._id) return;
 
     const envDev = import.meta.env.DEV
-      ? import.meta.env.VITE_DEV_URL
-      : import.meta.env.VITE_PROD_URL;
+      ? 'http://localhost:3500'
+      : 'https://upload-pdf-uni-backend.onrender.com';
 
     // console.log(envDev);
     const socket = io(envDev);

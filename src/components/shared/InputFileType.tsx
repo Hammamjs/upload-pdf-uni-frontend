@@ -9,8 +9,7 @@ const InputFileType = ({
   formData,
   register,
   file,
-}: // name
-InputFile) => {
+}: InputFile) => {
   const [actualFile, setActualFile] = useState<File | null>(null);
   useEffect(() => {
     if (file instanceof FileList && file.length > 0) {

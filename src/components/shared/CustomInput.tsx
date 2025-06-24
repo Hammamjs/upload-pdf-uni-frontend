@@ -31,7 +31,7 @@ const CustomInput = ({
           handleDrop={handleDrop}
           handleFileInputChange={handleFileInputChange}
           removeFile={removeFile}
-          file={file!}
+          file={file || null}
         />
       );
     case 'password':

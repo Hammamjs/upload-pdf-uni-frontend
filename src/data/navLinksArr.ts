@@ -24,12 +24,6 @@ export const navItems = [
     icon: 'Users',
   },
   {
-    path: 'File Options',
-    to: '/file-options',
-    role: ['SuperAdmin', 'Admin'],
-    icon: 'FileText',
-  },
-  {
     path: 'Change Roles',
     to: '/roles',
     role: ['SuperAdmin', 'Admin'],
@@ -46,12 +40,6 @@ export const navItems = [
     to: '/add-subject',
     role: ['SuperAdmin'],
     icon: 'Plus',
-  },
-  {
-    path: 'Subject Options',
-    to: '/subject-options',
-    role: ['SuperAdmin'],
-    icon: 'Settings',
   },
   {
     path: 'Logout',

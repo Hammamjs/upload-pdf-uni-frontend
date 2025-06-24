@@ -30,7 +30,7 @@ export type InputProps = {
   removeFile?: () => void;
   handleOnChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   isDisabled?: boolean;
-  file?: File;
+  file?: FileList | null;
 };
 
 export interface UploadFormData {
@@ -242,7 +242,7 @@ export type InputFile = {
   formData?: UploadFormData;
   removeFile?: () => void;
   register?: UseFormRegister<any>;
-  file: FileList;
+  file: FileList | null;
 };
 
 export type InputTextType = {

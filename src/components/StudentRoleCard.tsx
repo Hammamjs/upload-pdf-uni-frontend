@@ -1,6 +1,6 @@
 import useStudentRole from '../hooks/useStudentRole';
+import { useState } from 'react';
 
-import React, { useState } from 'react';
 import {
   Users,
   Shield,

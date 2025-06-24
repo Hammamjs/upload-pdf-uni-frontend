@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { BookOpen, Plus, Edit, Trash2, Save, X, Image } from 'lucide-react';
 
 interface Subject {
@@ -95,7 +95,6 @@ const AddSubject = () => {
       setEditingSubject(null);
     } else {
       const newSubject: Subject = {
-        id: Date.now(),
         ...(formData as Subject),
       };
       setSubjects((prev) => [...prev, newSubject]);

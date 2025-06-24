@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface LoadingAnimationProps {
   size?: 'sm' | 'md' | 'lg';
   color?: 'blue' | 'purple' | 'white' | 'green';
