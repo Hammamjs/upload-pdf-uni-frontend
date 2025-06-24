@@ -6,7 +6,6 @@ import { lazy } from 'react';
 const Home = lazy(() => import('./pages/Home'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
-const Subject = lazy(() => import('./pages/SubjectPage'));
 const Subjects = lazy(() => import('./pages/Subjects'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const UploadFile = lazy(() => import('./pages/UploadFile'));
@@ -15,7 +14,6 @@ const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 const VerificationPassword = lazy(() => import('./pages/VerificationPassword'));
 const ResetPasswordPage = lazy(() => import('./pages/ResetPasswordPage'));
 const StudentInformation = lazy(() => import('./pages/StudentInformation'));
-const SpecificYearPage = lazy(() => import('./pages/SpecificYearPage'));
 const NotificationsPage = lazy(() => import('./pages/NotificationsPage'));
 const AddSubjectPage = lazy(() => import('./pages/AddSubjectPage'));
 const RequireAuth = lazy(() => import('./components/RequireAuth'));
@@ -32,11 +30,6 @@ function App() {
           {/* Protected Routes */}
           <Route index element={<Home />} />
           <Route path="/student-info" element={<StudentInformation />} />
-          <Route
-            path="/year-subjects/:selected"
-            element={<SpecificYearPage />}
-          />
-          <Route path="subjects/:name" element={<Subject />} />
           <Route path="subjects" element={<Subjects />} />
           <Route path="/add-subject" element={<AddSubjectPage />} />
           <Route path="/upload" element={<UploadFile />} />

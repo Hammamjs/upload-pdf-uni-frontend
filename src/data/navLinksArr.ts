@@ -55,11 +55,3 @@ export interface NavigationLink {
   role: string[];
   icon: string;
 }
-
-// const navItems = [
-//   { path: '/', label: 'Download', icon: Download },
-//   { path: '/upload', label: 'Upload', icon: Upload },
-//   { path: '/results', label: 'Results', icon: GraduationCap },
-//   { path: '/subjects', label: 'Subjects', icon: BookOpen },
-//   { path: '/users', label: 'Users', icon: Users },
-// ];
