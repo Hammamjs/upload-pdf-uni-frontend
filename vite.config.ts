@@ -9,7 +9,7 @@ const __dirname = dirname(__filename);
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  // base: process.env.VITE_BASE_PATH || '/upload-pdf-uni-frontend',
+   base: process.env.VITE_BASE_PATH || '/upload-pdf-uni-frontend',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
