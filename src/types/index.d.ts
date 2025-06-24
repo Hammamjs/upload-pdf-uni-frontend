@@ -3,6 +3,16 @@ import { File } from 'node:buffer';
 import { ChangeEvent, ReactElement, RefObject } from 'react';
 import { UseFormRegister } from 'react-hook-form';
 
+/***** From types   *****/
+export type UploadRegisterType = {
+  file: FileList | null;
+  semester: string;
+  subject: string;
+  title: string;
+  year: string;
+};
+/************************/
+
 export type InputProps = {
   type: string;
   error: FieldError | undefined;
@@ -212,4 +222,34 @@ export type SubjectType = {
   view: string;
   content: string;
   size: number;
+};
+
+export type DropDownType = {
+  values: (string | number | DepartmentsType | YearType | SemesterType)[];
+  title: string;
+  name: UploadFileSchema;
+  register: UseFormRegister<any>;
+  isDisabled?: boolean;
+  Icon?: LucideIcon;
+};
+
+export type InputFile = {
+  dragActive?: boolean;
+  handleDrag?: (e: React.DragEvent) => void;
+  handleFileInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleDrop?: (e: React.DragEvent) => void;
+  fileInputRef?: RefObject<HTMLInputElement | null>;
+  formData?: UploadFormData;
+  removeFile?: () => void;
+  register?: UseFormRegister<any>;
+  file: FileList;
+};
+
+export type InputTextType = {
+  label: string;
+  placeholder: string;
+  name: string;
+  className?: string;
+  isDisabled?: boolean;
+  register: UseFormRegister<any>;
 };

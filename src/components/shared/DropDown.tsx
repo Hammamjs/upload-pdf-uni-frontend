@@ -1,11 +1,5 @@
-import {
-  DepartmentsType,
-  SemesterType,
-  YearType,
-} from '@/context/StudentContext';
+import { DropDownType } from '@/types';
 import Options from './Options';
-import { UseFormRegister } from 'react-hook-form';
-import { LucideIcon } from 'lucide-react';
 
 const DropDown = ({
   values,
@@ -14,14 +8,7 @@ const DropDown = ({
   register,
   isDisabled,
   Icon,
-}: {
-  values: (string | number | DepartmentsType | YearType | SemesterType)[];
-  title: string;
-  name: string;
-  register: UseFormRegister<any>;
-  isDisabled?: boolean;
-  Icon?: LucideIcon;
-}) => {
+}: DropDownType) => {
   return (
     <div>
       <label className="block text-sm font-medium text-gray-300 mb-2">

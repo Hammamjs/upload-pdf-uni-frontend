@@ -4,15 +4,9 @@ import type { StudentsType } from '../types';
 import useSWR from 'swr';
 
 const useStudentRole = () => {
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [students, setStudents] = useState<StudentsType>();
   const [filteredSt, setFilteredSt] = useState<StudentsType>();
 
-  const {
-    data: students,
-    isLoading,
-    mutate,
-  } = useSWR('students', getStudents, {
+  const { data: students, isLoading } = useSWR('students', getStudents, {
     suspense: true,
   });
 

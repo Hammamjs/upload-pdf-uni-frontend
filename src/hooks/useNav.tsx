@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useStudent } from '../hooks/useStudent';
 import { clearFromLocalstorage } from '../lib/LocalStorage';
-import { logout } from '../api/StudentApi';
+import { logout } from '../api/AuthApi';
 import useNotificationSystem from '../hooks/useNotificationSystem';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -10,7 +10,7 @@ export const useNav = () => {
   const { student } = useStudent();
   const [hideLinks, setHideLinks] = useState(true);
 
-  const { notificationsNumber } = useNotificationSystem();
+  const { unreadCount } = useNotificationSystem();
 
   const logoutFunc = async () => {
     clearFromLocalstorage('studentInfo');
@@ -33,7 +33,7 @@ export const useNav = () => {
   return {
     hideLinks,
     setHideLinks,
-    notificationsNumber,
+    unreadCount,
     handleLogout,
     studentRole: student?.role,
   };

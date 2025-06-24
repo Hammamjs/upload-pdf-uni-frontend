@@ -8,12 +8,6 @@ import StudentResultCard from './StudentResultCard';
 const StudentResults = () => {
   const [selectedSemester, setSelectedSemester] = useState('all');
 
-  // const semesters = [...new Set(results.map((r) => r.semester))];
-  // const filteredResults =
-  //   selectedSemester === 'all'
-  //     ? results
-  //     : results.filter((r) => r.semester === selectedSemester);
-
   const { result, student, handleRefresh, isValidating } = useStudentResult();
 
   return (

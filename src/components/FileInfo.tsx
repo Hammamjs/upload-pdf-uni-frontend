@@ -66,7 +66,6 @@ const UploadFileDetails = () => {
               <InputText
                 label="Subject"
                 placeholder="Enter subject name"
-                value={getValues('subject')}
                 name="subject"
                 register={register}
               />
@@ -76,7 +75,6 @@ const UploadFileDetails = () => {
               <InputText
                 label="Title"
                 placeholder="Enter document title"
-                value={getValues('title')}
                 name="title"
                 register={register}
               />

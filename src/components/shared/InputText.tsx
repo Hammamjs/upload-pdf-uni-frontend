@@ -1,24 +1,14 @@
 import { cn } from '@/lib/utils';
-import { ChangeEvent } from 'react';
-import { UseFormRegister } from 'react-hook-form';
+import type { InputTextType } from '@/types';
 
 const InputText = ({
   label,
-  value,
   placeholder,
   name,
   isDisabled,
   className,
   register,
-}: {
-  label: string;
-  value: string;
-  placeholder: string;
-  name: string;
-  className?: string;
-  isDisabled?: boolean;
-  register: UseFormRegister<any>;
-}) => {
+}: InputTextType) => {
   return (
     <div>
       <label className="block text-sm font-medium text-gray-300 mb-2">

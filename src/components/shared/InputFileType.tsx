@@ -1,19 +1,6 @@
-import { RefObject, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Upload, File as FileIcon, X, Cloud } from 'lucide-react';
-import type { UploadFormData } from '@/types';
-import { UseFormRegister } from 'react-hook-form';
-
-type InputFile = {
-  dragActive?: boolean;
-  handleDrag?: (e: React.DragEvent) => void;
-  handleFileInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleDrop?: (e: React.DragEvent) => void;
-  fileInputRef?: RefObject<HTMLInputElement | null>;
-  formData?: UploadFormData;
-  removeFile?: () => void;
-  register?: UseFormRegister<any>;
-  file: FileList;
-};
+import type { InputFile } from '@/types';
 
 const InputFileType = ({
   handleDrag,
