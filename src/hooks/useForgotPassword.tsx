@@ -1,6 +1,8 @@
 import { studentForgotPass } from '../api/AuthApi';
 import { addToLocalstorage } from '@/lib/LocalStorage';
+import axios from 'axios';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 const useForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -31,10 +33,9 @@ const useForgotPassword = () => {
       if (res.status === 200) {
         setIsSuccess(true);
         addToLocalstorage('reset-password-email', email);
-        console.log(email);
       }
     } catch (err) {
-      console.log(err);
+      if (axios.isAxiosError(err)) toast.error(err?.response?.data?.message);
     }
   };
 

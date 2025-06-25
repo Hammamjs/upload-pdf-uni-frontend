@@ -1,19 +1,21 @@
-import { Dispatch, SetStateAction } from 'react';
+import toast from 'react-hot-toast';
 import { createInstancePoint, urlEndpoint } from './UrlEndpoint';
+import { Subject, UploadFormData } from '@/types';
+import axios from 'axios';
 
-export const getStudentPdfSemester = async () => {
-  try {
-    const response = await createInstancePoint.get(
-      ///student-file?${subject}
-      urlEndpoint + `/subject`
-    );
+// export const getStudentPdfSemester = async () => {
+//   try {
+//     const response = await createInstancePoint.get(
+//       ///student-file?${subject}
+//       urlEndpoint + `/subject`
+//     );
 
-    return response.data;
-  } catch (err) {
-    console.log('Error fetch data', err);
-    return [];
-  }
-};
+//     return response.data;
+//   } catch (err) {
+//     if (axios.isAxiosError(err)) toast.error(err?.response?.data?.message);
+//     return [];
+//   }
+// };
 
 export const getStudentFiles = async () => {
   const response = await createInstancePoint.get(
@@ -32,32 +34,36 @@ export const getStudentSubject = async (subject?: string) => {
 
     return response.data;
   } catch (err) {
-    console.log('Error fetch data', err);
+    if (axios.isAxiosError(err)) toast.error(err?.response?.data?.message);
+
     return [];
   }
 };
-
 // Upload pdf file to server
 export const uploadFile = async (
-  formData: FormData,
-  setProgress: Dispatch<SetStateAction<number>>
+  formData: UploadFormData,
+  onUploadProgress?: (ProgressEvent: number) => void
 ) => {
-  const response = await createInstancePoint.post(
-    urlEndpoint + '/file',
-    formData,
-    {
-      onUploadProgress: (ProgressEvent) => {
-        const percentMethod = Math.round(
+  const data = new FormData();
+  data.append('file', formData.file!);
+  data.append('title', formData.title);
+  data.append('year', formData.year);
+  data.append('semester', formData.semester);
+  data.append('subject', formData.subject);
+
+  formData.departments.forEach((dep) => {
+    data.append('departments[]', dep);
+  });
+  const response = await createInstancePoint.post(urlEndpoint + '/file', data, {
+    onUploadProgress: (ProgressEvent) => {
+      if (onUploadProgress) {
+        const progress = Math.round(
           (ProgressEvent.loaded * 100) / (ProgressEvent.total || 1)
         );
-        setProgress(percentMethod);
-        // reset progressbar
-        setTimeout(() => {
-          setProgress(0);
-        }, 1000);
-      },
-    }
-  );
+        onUploadProgress(progress);
+      }
+    },
+  });
 
   return response;
 };
@@ -96,11 +102,24 @@ export const getAllSubjects = async () => {
 };
 
 // Add new subject
-export const addNewSubject = async (formData: FormData) => {
+export const addNewSubject = async (newSubject: Subject) => {
   const response = await createInstancePoint.post(
     urlEndpoint + '/subject',
-    formData
+    newSubject
   );
+
+  return response.data;
+};
+
+// Add new subject
+export const updateSubject = async (
+  updateSubject: Partial<Subject>,
+  id: string
+) => {
+  const response = await createInstancePoint.post(urlEndpoint + '/subject', {
+    ...updateSubject,
+    id,
+  });
 
   return response.data;
 };

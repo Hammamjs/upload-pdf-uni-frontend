@@ -1,6 +1,5 @@
-import type { InputProps } from '../../types';
+import type { InputProps } from '@/types';
 import InputField from './InputField';
-import InputFileType from './InputFileType';
 import InputPasswordType from './InputPasswordType';
 
 const CustomInput = ({
@@ -11,36 +10,17 @@ const CustomInput = ({
   error,
   label,
   name,
-  dragActive,
-  fileInputRef,
-  formData,
-  handleDrag,
-  handleDrop,
-  handleFileInputChange,
-  removeFile,
-  file,
+  isDisabled,
 }: InputProps) => {
   switch (type) {
-    case 'file':
-      return (
-        <InputFileType
-          dragActive={dragActive}
-          fileInputRef={fileInputRef}
-          formData={formData}
-          handleDrag={handleDrag}
-          handleDrop={handleDrop}
-          handleFileInputChange={handleFileInputChange}
-          removeFile={removeFile}
-          file={file || null}
-        />
-      );
     case 'password':
       return (
         <InputPasswordType
           register={register}
-          name={name ? name : 'pass'}
+          name={name}
           errors={error}
           placeholder={placeholder}
+          label={label || 'Password'}
         />
       );
     default:
@@ -53,6 +33,7 @@ const CustomInput = ({
           Icons={Icons}
           error={error}
           label={label}
+          isDisabled={isDisabled}
         />
       );
   }

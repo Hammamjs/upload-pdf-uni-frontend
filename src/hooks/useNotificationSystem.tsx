@@ -2,12 +2,14 @@ import { io } from 'socket.io-client';
 import { useEffect, useState } from 'react';
 import {
   markNotificationAsRead,
+  markNotificationsAsRead,
   studentNotifications,
 } from '../api/StudentApi';
 import { useStudent } from './useStudent';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
 import { NotificationsType } from '../types';
+import axios from 'axios';
 
 const useNotificationSystem = () => {
   const { student } = useStudent();
@@ -23,7 +25,6 @@ const useNotificationSystem = () => {
   // assign data to notifications
   useEffect(() => {
     setNotifications(notificationsData || []);
-    console.log(notificationsData);
   }, [isLoading]);
 
   useEffect(() => {
@@ -40,8 +41,12 @@ const useNotificationSystem = () => {
       ? 'http://localhost:3500'
       : 'https://upload-pdf-uni-backend.onrender.com';
 
-    // console.log(envDev);
-    const socket = io(envDev);
+    const socket = io(envDev, {
+      transports: ['websocket'],
+      withCredentials: true,
+      reconnectionAttempts: 5,
+      reconnectionDelay: 1000,
+    });
 
     // socketRef.current = socket;
 
@@ -58,27 +63,38 @@ const useNotificationSystem = () => {
   }, [student?._id]);
 
   const markAllAsRead = async () => {
-    const response = await markNotificationAsRead();
+    const response = await markNotificationsAsRead();
     mutate();
     toast.success(response.message);
     setNotifications((prev) =>
       prev.map((notification) => ({ ...notification, isRead: true }))
     );
+    setNotificationNumber((prev) => prev - 1);
   };
 
-  const markAsRead = (id: string) => {
-    setNotifications((prev) =>
-      prev.map((notification) =>
-        notification._id === id
-          ? { ...notification, isRead: true }
-          : notification
-      )
-    );
+  const markAsRead = async (id: string) => {
+    try {
+      const isRequestNeeded = notifications.find((n) => n._id === id)?.isRead;
+      setNotifications((prev) =>
+        prev.map((notification) =>
+          notification._id === id
+            ? { ...notification, isRead: true }
+            : notification
+        )
+      );
+      if (!isRequestNeeded) {
+        await markNotificationAsRead(id);
+        toast.success('Message Read');
+        setNotificationNumber((prev) => prev - 1);
+      }
+    } catch (err) {
+      if (axios.isAxiosError(err)) toast.error(err?.response?.data?.message);
+    }
   };
 
-  const handleViewFile = (notification: NotificationsType) => {
+  const handleViewFile = async (notification: NotificationsType) => {
     markAsRead(notification._id);
-    // navigate(notification.fileUrl);
+    await markAsRead(notification._id);
   };
 
   return {

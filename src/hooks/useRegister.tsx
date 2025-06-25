@@ -25,13 +25,11 @@ const useRegister = () => {
   useEffect(() => {
     const firstError = Object.values(errors)[0];
     if (firstError?.message) {
-      console.log(errors);
       toast.error(firstError.message as string);
     }
   }, [errors]);
 
   const handleRegisteration = async (student: SignIpSchemaType) => {
-    console.log('Hammam');
     // validation();
     setIsLoading(true);
     const studentData: StudentType = {
@@ -44,8 +42,6 @@ const useRegister = () => {
       department: student.department,
       semester: student.semester,
     };
-
-    console.log(studentData);
 
     try {
       const response = await SingUp(studentData);

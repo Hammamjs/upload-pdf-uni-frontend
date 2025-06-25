@@ -1,5 +1,4 @@
 import { LucideIcon } from 'lucide-react';
-import { File } from 'node:buffer';
 import { ChangeEvent, ReactElement, RefObject } from 'react';
 import { UseFormRegister } from 'react-hook-form';
 
@@ -18,28 +17,25 @@ export type InputProps = {
   error: FieldError | undefined;
   Icons?: LucideIcon;
   label?: string;
-  register?: UseFormRegister<any>;
+  register: UseFormRegister<any>;
   placeholder?: string;
-  name?: string;
-  dragActive?: boolean;
-  handleDrag?: (e: React.DragEvent) => void;
-  handleFileInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleDrop?: (e: React.DragEvent) => void;
+  name: string;
+  isDisabled?: boolean;
   fileInputRef?: RefObject<HTMLInputElement | null>;
   formData?: UploadFormData;
-  removeFile?: () => void;
   handleOnChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   isDisabled?: boolean;
-  file?: FileList | null;
 };
 
 export interface UploadFormData {
-  subject: subject;
+  fileName: string;
   title: string;
+  subject: string;
   year: string;
   semester: string;
+  department: string;
   file: File | null;
-  departments?: string[];
+  departments: string[];
 }
 
 export type CustomInputProps = {
@@ -58,9 +54,10 @@ export type CustomInputProps = {
 
 export type InputPasswordProps = {
   name: string;
-  register?: UseFormRegister<any>;
+  register: UseFormRegister<any>;
   errors: FieldError | undefined;
   placeholder?: string;
+  label: string;
 };
 
 export type InputFileType = {
@@ -242,7 +239,7 @@ export type InputFile = {
   formData?: UploadFormData;
   removeFile?: () => void;
   register?: UseFormRegister<any>;
-  file: FileList | null;
+  // file: FileList | null;
 };
 
 export type InputTextType = {
@@ -253,3 +250,14 @@ export type InputTextType = {
   isDisabled?: boolean;
   register: UseFormRegister<any>;
 };
+
+export interface Subject {
+  _id: string;
+  name: string;
+  code: string;
+  departments: string[]; // Changed to array for multiple departments
+  semester: string;
+  year: string;
+  coverImage?: string;
+  description: string;
+}

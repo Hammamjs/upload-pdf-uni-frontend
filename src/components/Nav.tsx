@@ -1,64 +1,23 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import {
-  Menu,
-  X,
-  Bell,
-  Home,
-  GraduationCap,
-  Upload,
-  Users,
-  FileText,
-  UserCog,
-  BookOpen,
-  Plus,
-  Settings,
-  LogOut,
-} from 'lucide-react';
-import { navItems } from '../data/navLinksArr';
-import { useStudent } from '@/hooks/useStudent';
-import useNotificationSystem from '@/hooks/useNotificationSystem';
 
-const iconMap = {
-  Home,
-  GraduationCap,
-  Upload,
-  Users,
-  FileText,
-  UserCog,
-  BookOpen,
-  Plus,
-  Settings,
-  LogOut,
-};
+import useNotificationSystem from '@/hooks/useNotificationSystem';
+import { useNav } from '@/hooks/useNav';
+import { Bell, GraduationCap, Menu, X } from 'lucide-react';
 
 const Navigation = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigate = useNavigate();
+  const {
+    IconComponent,
+    allowedLinks,
+    handleCloseAndLogout,
+    handleNotificationClick,
+    studentRole,
+    toggleMenu,
+    isMenuOpen,
+  } = useNav();
 
-  const { student } = useStudent();
   const { unreadCount } = useNotificationSystem();
-
-  // Filter links based on user role
-  const allowedLinks = navItems.filter((link) =>
-    link.role.includes(student?.role || '')
-  );
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const handleNotificationClick = () => {
-    navigate('/notifications');
-  };
-
-  const IconComponent = ({ iconName }: { iconName: string }) => {
-    const Icon = iconMap[iconName as keyof typeof iconMap];
-    return Icon ? <Icon className="h-5 w-5" /> : null;
-  };
-
   return (
     <nav className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50 shadow-sm">
       <div className="mx-auto px-4">
@@ -90,7 +49,7 @@ const Navigation = () => {
           {/* Right Side - Notifications and Menu */}
           <div className="flex items-center gap-3">
             {/* Notification Bell */}
-            {student !== null && (
+            {studentRole && (
               <Button
                 variant="ghost"
                 size="sm"
@@ -107,7 +66,7 @@ const Navigation = () => {
             )}
 
             {/* Mobile Menu Button */}
-            {student !== null && (
+            {studentRole !== undefined && (
               <Button
                 variant="ghost"
                 size="sm"
@@ -123,7 +82,7 @@ const Navigation = () => {
             )}
 
             {/* Desktop Menu Button */}
-            {student !== null && (
+            {studentRole !== undefined && (
               <Button
                 variant="ghost"
                 size="sm"
@@ -148,7 +107,7 @@ const Navigation = () => {
                   <Link
                     key={link.to}
                     to={link.to}
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={() => handleCloseAndLogout(link.path)}
                     className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors w-full"
                   >
                     <IconComponent iconName={link.icon} />

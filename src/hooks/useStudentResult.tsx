@@ -15,6 +15,7 @@ const useStudentResult = () => {
     isValidating,
   } = useSWR<ResultDataType>('student-result', studentRes, {
     onSuccess: () => toast.success('Result retrived'),
+    onError: () => {},
     suspense: true,
   });
 

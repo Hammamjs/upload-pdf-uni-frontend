@@ -98,7 +98,6 @@ const useResetPassword = () => {
         setIsSuccess(true);
       }
     } catch (err) {
-      console.log(err);
       if (axios.isAxiosError(err)) {
         toast.error(err?.response?.data.message);
       }

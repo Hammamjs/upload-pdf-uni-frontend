@@ -23,7 +23,9 @@ export const SingUp = async ({
       password,
       confirmPassword,
     },
-    { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+    {
+      headers: { 'Content-Type': 'application/json' },
+    }
   );
 
   return response.data;
@@ -78,4 +80,43 @@ export const resetPassword = async (
   );
 
   return response;
+};
+
+export const changeStudentPassword = async (
+  currentPassword: string,
+  newPassword: string,
+  confirmPassword: string,
+  email: string
+) => {
+  const response = await createInstancePoint.put(
+    urlEndpoint + '/auth//update-password',
+    {
+      currentPassword,
+      newPassword,
+      confirmPassword,
+      email,
+    }
+  );
+
+  return response;
+};
+
+export const updateStudentData = async ({
+  studentName,
+  studentIdx,
+  email,
+  year,
+  department,
+  semester,
+}: StudentType) => {
+  const response = await createInstancePoint.put(urlEndpoint + '/students', {
+    name: studentName,
+    studentIdx,
+    email,
+    year,
+    department,
+    semester,
+  });
+
+  return response.data;
 };

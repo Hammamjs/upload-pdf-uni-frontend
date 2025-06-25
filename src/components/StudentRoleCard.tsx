@@ -1,132 +1,27 @@
+import { formatDateFns } from '@/utils/dateFormat';
 import useStudentRole from '../hooks/useStudentRole';
-import { useState } from 'react';
-
-import {
-  Users,
-  Shield,
-  User,
-  Crown,
-  Search,
-  Edit,
-  X,
-  LucideIcon,
-} from 'lucide-react';
 import RolesCard from './RolesCard';
 import { Student } from '@/context/StudentContext';
-
+import { Search, Edit, X, User, Users } from 'lucide-react';
 const StudentRoleCard = () => {
   const {
-    students: data,
-    totalCount,
-    adminCount,
-    activeStudentsCount,
-    regularStudentsCount,
+    CardRoles,
+    editingUser,
+    filteredUsers,
+    getRoleColor,
+    getRoleIcon,
+    getStatusColor,
+    handleRoleChange,
+    handleStatusToggle,
+    setEditingUser,
+    setRoleFilter,
+    setSearchTerm,
+    setStatusFilter,
+    roleFilter,
+    searchTerm,
+    statusFilter,
+    students,
   } = useStudentRole();
-
-  const [students, setStudents] = useState<Student[]>(data);
-
-  const [searchTerm, setSearchTerm] = useState('');
-  const [roleFilter, setRoleFilter] = useState<'all' | 'Admin' | 'Student'>(
-    'all'
-  );
-  const [statusFilter, setStatusFilter] = useState<
-    'all' | 'active' | 'inactive'
-  >('all');
-  const [editingUser, setEditingUser] = useState<string | null>(null);
-
-  const filteredUsers = students.filter((student: Student) => {
-    const matchesSearch =
-      student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.department.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesRole = roleFilter === 'all' || student.role === roleFilter;
-    const matchesStatus =
-      statusFilter === 'all' ||
-      (student.active ? 'active' : 'inactive') === statusFilter;
-
-    return matchesSearch && matchesRole && matchesStatus;
-  });
-
-  const handleRoleChange = (studentId: string, newRole: 'admin' | 'user') => {
-    setStudents((prev) =>
-      prev.map((student) =>
-        student._id === studentId ? { ...student, role: newRole } : student
-      )
-    );
-
-    setEditingUser(null);
-  };
-
-  const handleStatusToggle = (studentId: string) => {
-    setStudents((prev) =>
-      prev.map((student) =>
-        student._id === studentId
-          ? {
-              ...student,
-              active: student.active ? false : true,
-            }
-          : student
-      )
-    );
-  };
-
-  const getRoleIcon = (role: string) => {
-    return role === 'admin' ? Crown : User;
-  };
-
-  const getRoleColor = (role: string) => {
-    return role === 'admin'
-      ? 'text-yellow-400 bg-yellow-500/20'
-      : 'text-blue-400 bg-blue-500/20';
-  };
-
-  const getStatusColor = (status: string) => {
-    return status === 'active'
-      ? 'text-green-400 bg-green-500/20'
-      : 'text-red-400 bg-red-500/20';
-  };
-
-  const CardRoles: {
-    count: number;
-    Icon: LucideIcon;
-    className?: string;
-    IconClassName?: string;
-    textClassName?: string;
-    text: string;
-  }[] = [
-    {
-      text: 'Total users',
-      Icon: Users,
-      count: totalCount,
-      className: 'from-blue-500/20 to-blue-600/20 border-blue-400/20',
-      textClassName: 'text-blue-300',
-      IconClassName: 'h-8 w-8 text-blue-400',
-    },
-    {
-      text: 'Admin',
-      Icon: Crown,
-      count: adminCount,
-      className: 'from-yellow-500/20 to-yellow-600/20 border-yellow-400/20',
-      textClassName: 'text-yellow-300',
-      IconClassName: 'text-yellow-400',
-    },
-    {
-      Icon: Shield,
-      count: activeStudentsCount,
-      className: 'from-green-500/20 to-green-600/20 border-green-400/20',
-      textClassName: 'text-green-300',
-      IconClassName: 'text-green-400',
-      text: 'Active users',
-    },
-    {
-      Icon: User,
-      count: regularStudentsCount,
-      className: 'from-purple-500/20 to-purple-600/20 border-purple-400/20',
-      textClassName: 'text-purple-300',
-      IconClassName: 'text-purple-400',
-      text: 'Regular Users',
-    },
-  ];
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -151,6 +46,7 @@ const StudentRoleCard = () => {
               text={text}
               className={className}
               IconClassName={IconClassName}
+              key={text}
             />
           )
         )}
@@ -274,13 +170,13 @@ const StudentRoleCard = () => {
                             onChange={(e) =>
                               handleRoleChange(
                                 student._id,
-                                e.target.value as 'admin' | 'user'
+                                e.target.value as 'Admin' | 'Student'
                               )
                             }
                             className="px-3 py-1 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                           >
                             <option value="user" className="bg-gray-800">
-                              User
+                              Student
                             </option>
                             <option value="admin" className="bg-gray-800">
                               Admin
@@ -318,7 +214,7 @@ const StudentRoleCard = () => {
                     </td>
                     <td className="px-6 py-4 text-center">
                       <span className="text-gray-300 text-sm">
-                        {new Date(Date.now()).toLocaleDateString()}
+                        {formatDateFns(student.lastseen).slice(0, 5)}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-center">

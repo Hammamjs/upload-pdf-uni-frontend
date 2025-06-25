@@ -49,7 +49,7 @@ const useLogin = () => {
       updateStudentData(response.student);
 
       reset();
-      setTimeout(() => navigate('/', { replace: true }), 800);
+      navigate('/', { replace: true });
     } catch (err) {
       if (axios.isAxiosError(err)) toast.error(err?.response?.data?.message);
     }

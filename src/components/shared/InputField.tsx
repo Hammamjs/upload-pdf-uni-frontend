@@ -8,6 +8,7 @@ const InputField = ({
   error,
   label,
   handleOnChange,
+  isDisabled,
 }: InputProps) => {
   if (!register) return;
 
@@ -32,6 +33,7 @@ const InputField = ({
           placeholder={placeholder}
           onChange={handleOnChange}
           // onKeyDown={handleKeyDown}
+          disabled={isDisabled}
         />
       </div>
       {error && <p className="mt-1 text-sm text-red-400">{error.message}</p>}

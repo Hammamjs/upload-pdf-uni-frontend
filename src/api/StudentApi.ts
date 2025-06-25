@@ -22,26 +22,6 @@ export const studentRes = async () => {
   return response.data;
 };
 
-export const updateStudentData = async ({
-  studentName,
-  studentIdx,
-  email,
-  year,
-  department,
-  semester,
-}: StudentType) => {
-  const response = await createInstancePoint.put(urlEndpoint + '/students', {
-    name: studentName,
-    studentIdx,
-    email,
-    year,
-    department,
-    semester,
-  });
-
-  return response.data;
-};
-
 export const getStudents = async () => {
   const response = await createInstancePoint.get(urlEndpoint + '/students');
 
@@ -60,19 +40,47 @@ export const changeStudentRole = async (
   return response.data;
 };
 
+export const changeAccountStatus = async (id: string, active: true | false) => {
+  const response = active
+    ? await createInstancePoint.patch(urlEndpoint + '/students/activate', {
+        id,
+      })
+    : await createInstancePoint.put(urlEndpoint + '/students/activate', {
+        id,
+      });
+
+  return response;
+};
+
+export const changeRole = async (id: string) => {
+  const response = await createInstancePoint.put(urlEndpoint + '/students', {
+    id,
+  });
+
+  return response;
+};
+
 export const studentNotifications = async () => {
   const response = await createInstancePoint.get(
     urlEndpoint + '/notifications'
   );
 
-  console.log('Response ', response.data);
-
   return response.data;
 };
 
-export const markNotificationAsRead = async () => {
+export const markNotificationsAsRead = async () => {
   const response = await createInstancePoint.post(
     urlEndpoint + '/notifications/read'
+  );
+
+  return response.data;
+};
+export const markNotificationAsRead = async (notificationId: string) => {
+  const response = await createInstancePoint.patch(
+    urlEndpoint + '/notifications/update-notification',
+    {
+      id: notificationId,
+    }
   );
 
   return response.data;

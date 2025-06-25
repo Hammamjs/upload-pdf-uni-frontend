@@ -23,6 +23,7 @@ export type Student = {
   role: string;
   _id: string;
   active: boolean;
+  lastseen: Date;
 };
 
 export type StudentType = {

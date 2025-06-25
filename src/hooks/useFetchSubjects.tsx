@@ -21,22 +21,6 @@ const useFetchSubjects = () => {
     return acc;
   }, [] as string[]);
 
-  // useEffect(() => {
-  //   if (files?.length) {
-  //     // create empty arr to hold ONLY subject name
-  //     // const subDetails: SubjectDetails[] = [];
-  //     console.log('Files and covers');
-
-  //     const filtedredSub = files.filter(
-  //       (file) =>
-  //         file.year === student?.year &&
-  //         file.semester === student.semester &&
-  //         file.departments.includes(student?.department || 'Computer Science')
-  //     );
-  //     setSubjects(filtedredSub);
-  //   }
-  // }, [files]);
-
   return {
     files,
     isLoading,

@@ -151,37 +151,36 @@ const ProfilePage = () => {
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {/* Current Password */}
-                    <div>
-                      <CustomInput
-                        type="password"
-                        name="currentPassword"
-                        error={errors.currentPassword}
-                        register={register}
-                        placeholder="Enter current password"
-                      />
-                    </div>
+                    <CustomInput
+                      type="password"
+                      name="currentPassword"
+                      error={errors.currentPassword}
+                      register={register}
+                      placeholder="Enter current password"
+                      label="Current password"
+                    />
 
                     {/* New Password */}
-                    <div>
-                      <CustomInput
-                        type="password"
-                        name="newPassword"
-                        error={errors.newPassword}
-                        register={register}
-                        placeholder="Enter new password"
-                      />
-                    </div>
+
+                    <CustomInput
+                      type="password"
+                      name="newPassword"
+                      error={errors.newPassword}
+                      register={register}
+                      placeholder="Enter new password"
+                      label="New password"
+                    />
 
                     {/* Confirm Password */}
-                    <div>
-                      <CustomInput
-                        type="password"
-                        name="confirmPassword"
-                        error={errors.confirmPassword}
-                        register={register}
-                        placeholder="Confirm your new password"
-                      />
-                    </div>
+
+                    <CustomInput
+                      type="password"
+                      name="confirmPassword"
+                      error={errors.confirmPassword}
+                      register={register}
+                      placeholder="Confirm your new password"
+                      label="Confirm password"
+                    />
                   </div>
                 </div>
               )}

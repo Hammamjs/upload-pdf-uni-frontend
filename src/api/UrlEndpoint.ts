@@ -8,7 +8,7 @@ export let urlEndpoint = 'http://localhost:3500/api/v1';
 if (import.meta.env.DEV) {
   urlEndpoint = 'http://localhost:3500/api/v1';
 } else {
-  urlEndpoint = 'https://upload-pdf-uni-backend.onrender.com/api';
+  urlEndpoint = 'https://upload-pdf-uni-backend.onrender.com/api/v1';
 }
 
 export const createInstancePoint = axios.create({
@@ -22,6 +22,7 @@ const restrictedRoutes = [
   '/forgot-password',
   '/verify-code',
   '/reset-password',
+  '/student-info',
 ];
 
 createInstancePoint.interceptors.response.use(
