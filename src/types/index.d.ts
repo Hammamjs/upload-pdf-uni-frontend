@@ -220,6 +220,13 @@ export type SubjectType = {
   view: string;
   content: string;
   size: number;
+  code: string;
+  description: string[];
+  uploader: {
+    _id: string;
+    name: string;
+    email: string;
+  };
 };
 
 export type DropDownType = {

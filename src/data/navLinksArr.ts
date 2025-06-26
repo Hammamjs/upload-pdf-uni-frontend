@@ -42,6 +42,12 @@ export const navItems = [
     icon: 'Plus',
   },
   {
+    path: 'PDF Management',
+    to: '/pdf-options',
+    role: ['SuperAdmin', 'Admin'],
+    icon: 'Settings',
+  },
+  {
     path: 'Logout',
     to: '/login',
     role: ['SuperAdmin', 'Admin', 'Student'],

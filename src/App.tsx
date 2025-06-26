@@ -19,6 +19,7 @@ const NotificationsPage = lazy(() => import('./pages/NotificationsPage'));
 const AddSubjectPage = lazy(() => import('./pages/AddSubjectPage'));
 const RequireAuth = lazy(() => import('./components/RequireAuth'));
 const StudentRoles = lazy(() => import('./components/StudentRoles'));
+const PDFManagement = lazy(() => import('./components/PDFManagement'));
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/student-info" element={<StudentInformation />} />
           <Route path="subjects" element={<Subjects />} />
           <Route path="/add-subject" element={<AddSubjectPage />} />
+          <Route path="//pdf-options" element={<PDFManagement />} />
           <Route path="/upload" element={<UploadFile />} />
           <Route path="/student-result" element={<StudentResult />} />
           <Route path="/roles" element={<StudentRoles />} />

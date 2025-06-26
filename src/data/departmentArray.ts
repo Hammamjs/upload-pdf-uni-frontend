@@ -3,7 +3,7 @@ export const DEPARTMENTS = [
   'Computer Science',
   'Math',
   'Statistic',
-  'Information Techenology',
+  'Information Technology',
 ] as const;
 
 export const SEMESTER = ['1st', '2nd'] as const;

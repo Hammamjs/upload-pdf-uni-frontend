@@ -1,6 +1,6 @@
 import toast from 'react-hot-toast';
 import { createInstancePoint, urlEndpoint } from './UrlEndpoint';
-import { Subject, UploadFormData } from '@/types';
+import { Subject, SubjectType, UploadFormData } from '@/types';
 import axios from 'axios';
 
 // export const getStudentPdfSemester = async () => {
@@ -70,6 +70,30 @@ export const uploadFile = async (
 
 export const getAllPdfs = async () => {
   const response = await createInstancePoint.get(urlEndpoint + '/file');
+
+  return response.data;
+};
+
+// Delete file from server
+export const updateFile = async ({
+  title,
+  departments,
+  semester,
+  year,
+  subject,
+  _id,
+}: Partial<SubjectType>) => {
+  const response = await createInstancePoint.patch(
+    urlEndpoint + `/file/update-file`,
+    {
+      id: _id,
+      departments,
+      semester,
+      year,
+      subject,
+      title,
+    }
+  );
 
   return response.data;
 };
