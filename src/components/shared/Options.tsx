@@ -1,8 +1,4 @@
-import {
-  DepartmentsType,
-  SemesterType,
-  YearType,
-} from '@/context/StudentContext';
+import { DepartmentsType, SemesterType, YearType } from '@/types';
 
 const Options = ({
   values,
