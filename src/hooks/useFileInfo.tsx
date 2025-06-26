@@ -50,6 +50,13 @@ const useFileInfo = () => {
   const subjectInputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
 
+  // auto rename file name
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      title: prev?.file?.name.split('.')[0] as string,
+    }));
+  }, [formData.file]);
   // Filter suggestions based on input
   useEffect(() => {
     if (formData.subject.length > 0) {
