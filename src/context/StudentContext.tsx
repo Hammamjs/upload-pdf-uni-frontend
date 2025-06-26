@@ -1,17 +1,7 @@
 import { ReactElement, useState } from 'react';
 import { createContext } from 'react';
 import { getLocalstorage } from '../lib/LocalStorage';
-
-export type DepartmentsType =
-  | 'Networks'
-  | 'Computer Science'
-  | 'Math'
-  | 'Statisitc'
-  | 'Information Techenology';
-
-export type SemesterType = '1st' | '2nd';
-
-export type YearType = '1st' | '2nd' | '3rd' | '4th' | '5th';
+import { DepartmentsType, SemesterType, YearType } from '@/types';
 
 export type Student = {
   name: string;

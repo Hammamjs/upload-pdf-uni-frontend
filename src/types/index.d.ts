@@ -1,3 +1,4 @@
+import { DEPARTMENTS } from '@/data/departmentArray';
 import { LucideIcon } from 'lucide-react';
 import { ChangeEvent, ReactElement, RefObject } from 'react';
 import { UseFormRegister } from 'react-hook-form';
@@ -229,6 +230,19 @@ export type DropDownType = {
   isDisabled?: boolean;
   Icon?: LucideIcon;
 };
+
+export type DepartmentType = (typeof DEPARTMENTS)[number];
+
+export type DepartmentsType =
+  | 'Networks'
+  | 'Computer Science'
+  | 'Math'
+  | 'Statistic'
+  | 'Information Techenology';
+
+export type SemesterType = '1st' | '2nd';
+
+export type YearType = '1st' | '2nd' | '3rd' | '4th' | '5th';
 
 export type InputFile = {
   dragActive?: boolean;

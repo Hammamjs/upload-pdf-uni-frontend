@@ -1,5 +1,5 @@
 import { Toaster } from 'react-hot-toast';
-import UploadFileDetails from '../components/FileInfo';
+import UploadFileDetails from '../components/UploadFileDetails';
 
 const UploadFile = () => {
   return (

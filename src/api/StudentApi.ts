@@ -1,8 +1,4 @@
-import {
-  DepartmentsType,
-  SemesterType,
-  YearType,
-} from '@/context/StudentContext';
+import { DepartmentsType, SemesterType, YearType } from '@/types';
 import { createInstancePoint, urlEndpoint } from './UrlEndpoint';
 
 export type StudentType = {
