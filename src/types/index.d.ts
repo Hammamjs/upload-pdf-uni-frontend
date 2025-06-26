@@ -245,7 +245,7 @@ export type DepartmentsType =
   | 'Computer Science'
   | 'Math'
   | 'Statistic'
-  | 'Information Techenology';
+  | 'Information Technology';
 
 export type SemesterType = '1st' | '2nd';
 
