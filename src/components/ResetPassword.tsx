@@ -92,7 +92,7 @@ const ResetPassword = () => {
 
               {/* Action Button */}
               <button
-                onClick={() => navigate('/login')}
+                onClick={() => navigate('/login', { replace: true })}
                 className="w-full inline-flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
               >
                 <span>Continue to Login</span>

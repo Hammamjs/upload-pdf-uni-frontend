@@ -9,13 +9,10 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { BookOpen, GraduationCap, FileText, Download } from 'lucide-react';
-import { departments } from '@/data/departmentArray';
+import { departments, FILE_BELONG_TO, SEMESTER } from '@/data/departmentArray';
 import useStudentMaterials from '@/hooks/useStudentMaterials';
 import { SubjectType } from '@/types';
 import { formatDateFns } from '@/utils/dateFormat';
-
-const years = ['1st year', '2nd year', '3rd year', '4th year', '5th year'];
-const semesters = ['1st Semester', '2nd Semester'];
 
 const StudyMaterials = () => {
   const [selectedDepartment, setSelectedDepartment] = useState('');
@@ -151,9 +148,9 @@ const StudyMaterials = () => {
                         <SelectValue placeholder="Select year" />
                       </SelectTrigger>
                       <SelectContent>
-                        {years.map((year) => (
+                        {FILE_BELONG_TO.map((year) => (
                           <SelectItem key={year} value={year}>
-                            {year}
+                            {year} year
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -173,9 +170,9 @@ const StudyMaterials = () => {
                         <SelectValue placeholder="Select semester" />
                       </SelectTrigger>
                       <SelectContent>
-                        {semesters.map((semester) => (
+                        {SEMESTER.map((semester) => (
                           <SelectItem key={semester} value={semester}>
-                            {semester}
+                            {semester} semester
                           </SelectItem>
                         ))}
                       </SelectContent>

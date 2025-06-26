@@ -1,6 +1,11 @@
 import { Download, BookOpen, Star, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 const HomeUi = () => {
+  const navigate = useNavigate();
+  const handleButton = (): void => {
+    navigate('/subjects');
+  };
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       {/* Geometric background elements */}
@@ -19,7 +24,7 @@ const HomeUi = () => {
           <div className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 mb-8 border border-white/20">
             <Star className="w-5 h-5 text-yellow-400 mr-2" />
             <span className="text-white text-sm font-medium">
-              Trusted by 125,000+ readers worldwide
+              An easy way to download files
             </span>
           </div>
 
@@ -40,6 +45,7 @@ const HomeUi = () => {
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
             <Button
+              onClick={handleButton}
               size="lg"
               className="bg-gradient-to-r flex justify-between items-center from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 text-white font-semibold px-10 py-6 text-lg rounded-2xl transition-all duration-300 hover:scale-105 shadow-xl border-0 group"
             >
@@ -48,6 +54,7 @@ const HomeUi = () => {
               <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button
+              onClick={handleButton}
               variant="outline"
               size="lg"
               className="border-2 flex justify-between items-center border-white/30 text-white hover:bg-white/10 hover:border-white/50 px-10 py-6 text-lg rounded-2xl transition-all duration-300 backdrop-blur-sm"

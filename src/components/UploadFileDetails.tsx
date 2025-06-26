@@ -37,6 +37,7 @@ const UploadPage = () => {
     setShowSuggestions,
     showSuggestions,
     selectedSubject,
+    fileTypeAccepted,
   } = useFileInfo();
 
   return (
@@ -70,7 +71,7 @@ const UploadPage = () => {
               <input
                 ref={fileInputRef}
                 type="file"
-                accept=".pdf"
+                accept={fileTypeAccepted.join(',')}
                 onChange={handleFileInputChange}
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
               />

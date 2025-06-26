@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import { lazy } from 'react';
+import RedirectIfAuthenticated from './components/RedirectIfAuthenticated';
 
 // why to do this? to prevent send too match code
 const Home = lazy(() => import('./pages/Home'));
@@ -38,9 +39,11 @@ function App() {
           <Route path="/notifications" element={<NotificationsPage />} />
         </Route>
 
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/verify-code" element={<VerificationPassword />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route element={<RedirectIfAuthenticated />}>
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/verify-code" element={<VerificationPassword />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+        </Route>
 
         <Route path="*" element={<NotFound />} />
       </Route>

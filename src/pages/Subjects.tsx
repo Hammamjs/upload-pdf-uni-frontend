@@ -1,4 +1,4 @@
-import StudyMaterials from '../components/SelectMaterials';
+import StudyMaterials from '@/components/SelectMaterials';
 
 const Subjects = () => {
   return (

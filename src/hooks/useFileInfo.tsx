@@ -15,6 +15,9 @@ interface SubjectData {
 }
 
 const useFileInfo = () => {
+  // file type accepted
+  const fileTypeAccepted = ['.ppt', '.pdf', 'pptx', 'docx'];
+
   const { data: subjects } = useSWR<SubjectData[]>(
     'subject-options',
     getAllSubjects
@@ -285,6 +288,7 @@ const useFileInfo = () => {
     subjectInputRef,
     suggestionsRef,
     selectedSubject,
+    fileTypeAccepted,
   };
 };
 
