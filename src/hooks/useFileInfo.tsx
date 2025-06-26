@@ -209,6 +209,7 @@ const useFileInfo = () => {
     } catch (err) {
       if (axios.isAxiosError(err)) toast.error(err?.response?.data?.message);
       toast.error('Upload failed');
+      console.log(err);
     } finally {
       setIsUploading(false);
     }

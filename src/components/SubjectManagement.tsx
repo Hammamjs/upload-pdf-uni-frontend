@@ -14,7 +14,7 @@ import {
 import useSubjectOption from '@/hooks/useSubjectOption';
 import { DEPARTMENTS, FILE_BELONG_TO, SEMESTER } from '@/data/departmentArray';
 
-const SubjectManagementPage = () => {
+const SubjectManagement = () => {
   const {
     clearFilters,
     editingSubject,
@@ -93,8 +93,8 @@ const SubjectManagementPage = () => {
               <option value="all" className="bg-gray-800">
                 All Departments
               </option>
-              {DEPARTMENTS.map((dept) => (
-                <option key={dept} value={dept} className="bg-gray-800">
+              {DEPARTMENTS.map((dept, i) => (
+                <option key={i} value={dept} className="bg-gray-800">
                   {dept}
                 </option>
               ))}
@@ -474,7 +474,7 @@ const SubjectManagementPage = () => {
                 <div className="flex flex-wrap gap-1">
                   {subject.departments.map((dept, index) => (
                     <span
-                      key={dept}
+                      key={index}
                       className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${getDepartmentColor(
                         index
                       )}`}
@@ -545,4 +545,4 @@ const SubjectManagementPage = () => {
   );
 };
 
-export default SubjectManagementPage;
+export default SubjectManagement;

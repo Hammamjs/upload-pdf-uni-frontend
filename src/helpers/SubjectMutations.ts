@@ -1,6 +1,5 @@
 import { deleteSubject } from '../api/FileApi';
 import type { SubjectType } from '../types';
-
 export const deleteSubjectMutation = async (
   id: string,
   subjects: SubjectType[]
