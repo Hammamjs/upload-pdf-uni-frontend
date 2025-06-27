@@ -7,10 +7,12 @@ const StudentResultCard = ({
   name,
   remark,
   studentIdx,
+  examLevel,
 }: {
   name: string;
   studentIdx: string;
   gpa: string;
+  examLevel: string;
   remark: string;
   isValidating: boolean;
   handleRefresh: () => void;
@@ -72,7 +74,7 @@ const StudentResultCard = ({
             <h3 className="text-lg font-semibold text-white mb-2">
               Current Semester
             </h3>
-            <p className="text-lg font-medium text-blue-400">First Semester</p>
+            <p className="text-lg font-medium text-blue-400">{examLevel}</p>
           </div>
         </div>
       </div>

@@ -25,9 +25,10 @@ const StudentResults = () => {
         gpa={result!.res.gpa}
         handleRefresh={handleRefresh}
         isValidating={isValidating}
-        name={student!.name}
-        remark={result!.res.remark}
-        studentIdx={student!.studentIdx}
+        name={result?.res.name || 'unknown'}
+        remark={result?.res.remark || 'fail'}
+        studentIdx={student?.studentIdx || ''}
+        examLevel={result?.res?.finalExam.level || ''}
       />
 
       {/* Semester Filter */}
@@ -57,9 +58,8 @@ const StudentResults = () => {
           <table className="w-full">
             <StudentResultTable />
             <tbody className="divide-y divide-white/10">
-              {result?.res?.grades
-                .slice(0, -2)
-                .map(({ grade, ch, semester, subject }, index) => (
+              {result?.res?.grades.map(
+                ({ grade, ch, semester, subject }, index) => (
                   <ResultData
                     grade={grade}
                     ch={ch}
@@ -67,7 +67,8 @@ const StudentResults = () => {
                     subject={subject}
                     key={index}
                   />
-                ))}
+                )
+              )}
             </tbody>
           </table>
         </div>

@@ -172,6 +172,11 @@ export type StudentStatusType = {
 export type ResultDataType = {
   res: {
     gpa: string;
+    finalExam: {
+      date: string;
+      level: string;
+      title: string;
+    };
     grades: {
       ch: string;
       grade: string;
