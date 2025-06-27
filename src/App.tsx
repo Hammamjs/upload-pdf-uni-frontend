@@ -3,7 +3,6 @@ import Layout from './components/Layout';
 import { lazy, Suspense } from 'react';
 import RedirectIfAuthenticated from './components/RedirectIfAuthenticated';
 import { ErrorBoundary } from 'react-error-boundary';
-import LoadingAnimation from './animation/LoadingAnimation';
 import Errorfallback from './components/Errorfallback';
 import SuspenseLoader from './animation/SuspenseLoader';
 
