@@ -55,6 +55,11 @@ const useStudentRole = () => {
     } catch (err) {
       if (axios.isAxiosError(err)) {
         toast.error(err?.response?.data.message);
+        setStudents((prev) =>
+          prev.map((student) => ({
+            ...student,
+          }))
+        );
       }
     }
 

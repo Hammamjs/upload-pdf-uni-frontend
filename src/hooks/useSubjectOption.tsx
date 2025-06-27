@@ -1,23 +1,26 @@
-import {
-  addNewSubject,
-  deleteSubject,
-  getAllSubjects,
-  updateSubject,
-} from '@/api/FileApi';
-import { useState } from 'react';
+import { getAllSubjects, updateSubject } from '@/api/FileApi';
+import { useEffect, useState } from 'react';
 import type { Subject } from '@/types';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
 import axios from 'axios';
+import {
+  addNewSubject,
+  addNewSubjectOption,
+  deleteSubjectOptions,
+  deleteSubjectMutation,
+} from '@/helpers/SubjectMutations';
 
 const useSubjectOption = () => {
-  const { data } = useSWR('subject', getAllSubjects, { suspense: true });
+  const { data, mutate } = useSWR('subject', getAllSubjects, {
+    suspense: true,
+  });
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('all');
   const [selectedSemester, setSelectedSemester] = useState('all');
   const [selectedYear, setSelectedYear] = useState('all');
-  const [subjects, setSubjects] = useState<Subject[]>(data);
+  const [subjects, setSubjects] = useState<Subject[]>(data || []);
 
   const [isAddingSubject, setIsAddingSubject] = useState(false);
   const [editingSubject, setEditingSubject] = useState<string | null>(null);
@@ -77,13 +80,13 @@ const useSubjectOption = () => {
 
       if (!getSubject) return;
 
-      setSubjects((prev) =>
-        prev.map((subject) =>
-          subject._id === editingSubject
-            ? ({ ...subject, ...formData } as Subject)
-            : subject
-        )
-      );
+      // setSubjects((prev) =>
+      //   prev.map((subject) =>
+      //     subject._id === editingSubject
+      //       ? ({ ...subject, ...formData } as Subject)
+      //       : subject
+      //   )
+      // );
 
       try {
         await updateSubject(formData, getSubject);
@@ -101,7 +104,10 @@ const useSubjectOption = () => {
 
       // upload new subject to DB
       try {
-        await addNewSubject(newSubject);
+        await mutate(
+          addNewSubject(newSubject, data),
+          addNewSubjectOption(data)
+        );
         toast.success('New Subject added');
       } catch (err) {
         if (axios.isAxiosError(err)) {
@@ -109,7 +115,7 @@ const useSubjectOption = () => {
         }
       }
 
-      setSubjects((prev) => [...prev, newSubject]);
+      // setSubjects((prev) => [...prev, newSubject]);
       setIsAddingSubject(false);
     }
 
@@ -124,9 +130,12 @@ const useSubjectOption = () => {
 
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this subject?')) {
+      console.log(id);
       try {
-        await deleteSubject(id);
-        setSubjects((prev) => prev.filter((subject) => subject._id !== id));
+        await mutate(
+          deleteSubjectMutation(id, data),
+          deleteSubjectOptions(data)
+        );
         toast.success('Subject removed');
       } catch (err) {
         if (axios.isAxiosError(err)) toast.error(err?.response?.data?.message);
@@ -163,7 +172,7 @@ const useSubjectOption = () => {
   };
 
   // Filter subjects based on search and filter criteria
-  const filteredSubjects = subjects.filter((subject) => {
+  const filteredSubjects = subjects?.filter((subject) => {
     const matchesSearch =
       searchTerm === '' ||
       subject.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -186,6 +195,10 @@ const useSubjectOption = () => {
   });
 
   // Clear all filters
+
+  useEffect(() => {
+    setSubjects(data);
+  }, [data]);
 
   const clearFilters = () => {
     setSearchTerm('');

@@ -9,7 +9,7 @@ const PDFManagementPage = () => {
       <Suspense fallback={<LoadingMaterials />}>
         <PDFManagement />
       </Suspense>
-      <Toaster />
+      <Toaster position="top-right" />
     </div>
   );
 };
