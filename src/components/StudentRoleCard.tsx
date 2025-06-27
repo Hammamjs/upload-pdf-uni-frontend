@@ -167,18 +167,19 @@ const StudentRoleCard = () => {
                         <div className="flex items-center justify-center space-x-2">
                           <select
                             value={student.role}
-                            onChange={(e) =>
-                              handleRoleChange(
-                                student._id,
-                                e.target.value as 'Admin' | 'Student'
-                              )
-                            }
+                            onChange={(e) => {
+                              const newRole = e.target.value as
+                                | 'Admin'
+                                | 'Student';
+                              if (newRole !== student.role)
+                                handleRoleChange(student._id, newRole);
+                            }}
                             className="px-3 py-1 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                           >
-                            <option value="user" className="bg-gray-800">
+                            <option value="Student" className="bg-gray-800">
                               Student
                             </option>
-                            <option value="admin" className="bg-gray-800">
+                            <option value="Admin" className="bg-gray-800">
                               Admin
                             </option>
                           </select>

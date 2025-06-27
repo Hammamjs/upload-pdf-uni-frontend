@@ -171,7 +171,7 @@ const PDFManagement = () => {
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-4">
           <span className="text-gray-300 text-sm">Sort by:</span>
-          <div className="flex space-x-2">
+          <div className="flex space-x-2 ">
             {[
               { key: 'title', label: 'Title' },
               { key: 'uploadDate', label: 'Upload Date' },
@@ -182,7 +182,7 @@ const PDFManagement = () => {
                 <button
                   key={key}
                   onClick={() => handleSort(key as any)}
-                  className={`flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  className={`flex text-xs items-center space-x-1 px-1.5 py-2 md:px-3 md:py-2 rounded-lg md:text-sm font-medium transition-all duration-200 ${
                     sortBy === key
                       ? 'bg-blue-500/20 text-blue-300 border border-blue-400/30'
                       : 'bg-white/10 text-gray-300 hover:bg-white/20 border border-white/20'

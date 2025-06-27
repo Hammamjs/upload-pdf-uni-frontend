@@ -1,17 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Users, Shield, User, Crown, LucideIcon } from 'lucide-react';
-import {
-  changeAccountStatus,
-  changeRole,
-  getStudents,
-} from '../api/StudentApi';
+import { getStudents } from '../api/StudentApi';
 import useSWR from 'swr';
 import { Student } from '@/context/StudentContext';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import {
+  changeAccountRole,
+  changeAccountRoleOptions,
+  updateStudentStatus,
+  updateStudentStatusOption,
+} from '@/helpers/StudentMutations';
 
 const useStudentRole = () => {
-  const { data: studentsData } = useSWR('students', getStudents, {
+  const { data: studentsData, mutate } = useSWR('students', getStudents, {
     suspense: true,
   });
 
@@ -27,6 +29,11 @@ const useStudentRole = () => {
     'all' | 'active' | 'inactive'
   >('all');
   const [editingUser, setEditingUser] = useState<string | null>(null);
+
+  useEffect(() => {
+    setStudents(studentsData?.results?.students || []);
+    console.log(studentsData);
+  }, [studentsData]);
 
   const filteredUsers = students.filter((student) => {
     const matchesSearch =
@@ -45,21 +52,15 @@ const useStudentRole = () => {
     newRole: 'Admin' | 'Student'
   ) => {
     try {
-      setStudents((prev) =>
-        prev.map((student) =>
-          student._id === studentId ? { ...student, role: newRole } : student
-        )
+      await mutate(
+        changeAccountRole(studentId, students, newRole),
+        changeAccountRoleOptions(studentId, students, newRole)
       );
-      await changeRole(studentId);
+      console.log('Action trigger');
       toast.success('Role change successfully');
     } catch (err) {
       if (axios.isAxiosError(err)) {
         toast.error(err?.response?.data.message);
-        setStudents((prev) =>
-          prev.map((student) => ({
-            ...student,
-          }))
-        );
       }
     }
 
@@ -68,27 +69,22 @@ const useStudentRole = () => {
 
   const handleStatusToggle = async (studentId: string) => {
     try {
-      setStudents((prev) =>
-        prev.map((s) => (s._id === studentId ? { ...s, active: !s.active } : s))
+      await mutate(
+        updateStudentStatus(studentId, students),
+        updateStudentStatusOption(studentId, students)
       );
-
-      const student = students.find((s) => s._id === studentId);
-      if (!student) return;
-      await changeAccountStatus(studentId, student?.active);
+      toast.success('Role changed');
     } catch (_err) {
-      setStudents((prev) =>
-        prev.map((s) => (s._id === studentId ? { ...s, active: !s.active } : s))
-      );
       if (axios.isAxiosError(_err)) toast.error(_err?.response?.data?.message);
     }
   };
 
   const getRoleIcon = (role: string) => {
-    return role === 'admin' ? Crown : User;
+    return role === 'Admin' ? Crown : User;
   };
 
   const getRoleColor = (role: string) => {
-    return role === 'admin'
+    return role === 'Admin' || role === 'SuperAdmin'
       ? 'text-yellow-400 bg-yellow-500/20'
       : 'text-blue-400 bg-blue-500/20';
   };
@@ -99,11 +95,13 @@ const useStudentRole = () => {
       : 'text-red-400 bg-red-500/20';
   };
 
-  const filterData = (data: Student[], role: 'Admin' | 'Student') => {
-    return data.filter((s) => s.role === role || s.role === 'SuperAdmin')
-      .length;
+  const filterData = (
+    data: Student[],
+    role: 'Admin' | 'Student' | 'SuperAdmin'
+  ) => {
+    return data.filter((s) => s.role === role).length;
   };
-  const activeUses = students.filter((s) => s.active).length;
+  const activeUsers = students.filter((s) => s.active).length;
 
   const CardRoles: {
     count: number;
@@ -124,14 +122,14 @@ const useStudentRole = () => {
     {
       text: 'Admin',
       Icon: Crown,
-      count: filterData(students, 'Admin'),
+      count: filterData(students, 'Admin') + filterData(students, 'SuperAdmin'),
       className: 'from-yellow-500/20 to-yellow-600/20 border-yellow-400/20',
       textClassName: 'text-yellow-300',
       IconClassName: 'text-yellow-400',
     },
     {
       Icon: Shield,
-      count: activeUses || 0,
+      count: activeUsers || 0,
       className: 'from-green-500/20 to-green-600/20 border-green-400/20',
       textClassName: 'text-green-300',
       IconClassName: 'text-green-400',

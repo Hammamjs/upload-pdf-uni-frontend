@@ -26,11 +26,8 @@ const useStudentResult = () => {
           acc.push(current.grade);
         return acc;
       }, [] as string[]) || [];
-    console.log(arrayOfGrades.current);
-    console.log(result?.res);
   }, [isLoading]);
 
-  // console.log(result?.res.grades.slice(0, -2));
   return {
     isLoading,
     student,

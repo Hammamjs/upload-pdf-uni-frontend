@@ -25,18 +25,18 @@ export const getStudents = async () => {
 };
 
 export const changeStudentRole = async (
-  email: string,
+  id: string,
   role: 'Student' | 'Admin'
 ) => {
   const response = await createInstancePoint.put(urlEndpoint + '/students', {
-    email,
+    id,
     role,
   });
 
   return response.data;
 };
 
-export const changeAccountStatus = async (id: string, active: true | false) => {
+export const changeAccountStatus = async (id: string, active: boolean) => {
   const response = active
     ? await createInstancePoint.patch(urlEndpoint + '/students/activate', {
         id,

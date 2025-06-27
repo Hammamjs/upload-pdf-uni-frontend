@@ -1,5 +1,5 @@
-import { io } from 'socket.io-client';
-import { useEffect, useState } from 'react';
+import { io, Socket } from 'socket.io-client';
+import { useEffect, useRef, useState } from 'react';
 import {
   markNotificationAsRead,
   markNotificationsAsRead,
@@ -16,16 +16,17 @@ const useNotificationSystem = () => {
   const [notificationsNumber, setNotificationNumber] = useState(0);
   const [notifications, setNotifications] = useState<NotificationsType[]>([]);
 
-  const {
-    isLoading,
-    data: notificationsData,
-    mutate,
-  } = useSWR<NotificationsType[]>('notification', studentNotifications);
+  const socketRef = useRef<Socket | null>(null);
+
+  const { data: notificationsData, mutate } = useSWR<NotificationsType[]>(
+    'notification',
+    studentNotifications
+  );
 
   // assign data to notifications
   useEffect(() => {
     setNotifications(notificationsData || []);
-  }, [isLoading]);
+  }, [notificationsData]);
 
   useEffect(() => {
     const unreadMessages = notifications?.filter(
@@ -41,24 +42,27 @@ const useNotificationSystem = () => {
       ? 'http://localhost:3500'
       : 'https://upload-pdf-uni-backend.onrender.com';
 
-    const socket = io(envDev, {
-      transports: ['websocket'],
-      withCredentials: true,
-      reconnectionAttempts: 5,
-      reconnectionDelay: 1000,
-    });
+    if (!socketRef.current) {
+      socketRef.current = io(envDev);
+    }
 
     // socketRef.current = socket;
 
-    if (student && student._id) socket.emit('joinRoom', student._id);
+    socketRef.current.emit('joinRoom', student._id);
 
-    socket.on('notification', (data) => {
+    socketRef.current.on('notification', (data) => {
+      mutate(
+        (currentNotifications = []) => [data, ...currentNotifications],
+        false
+      );
       setNotifications((prev) => [data, ...prev]);
       setNotificationNumber((prev) => prev + 1);
     });
 
     return () => {
-      socket.disconnect();
+      socketRef.current?.off('notification');
+      socketRef.current?.disconnect();
+      socketRef.current = null;
     };
   }, [student?._id]);
 

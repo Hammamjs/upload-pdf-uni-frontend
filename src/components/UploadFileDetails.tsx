@@ -137,7 +137,7 @@ const UploadPage = () => {
                     ref={subjectInputRef}
                     type="text"
                     name="subject"
-                    value={formData.subject}
+                    value={formData.subject || ''}
                     onChange={handleSubjectChange}
                     onKeyDown={handleKeyDown}
                     onFocus={() =>
@@ -219,7 +219,7 @@ const UploadPage = () => {
                 <input
                   type="text"
                   name="title"
-                  value={formData.title}
+                  value={formData.title || ''}
                   onChange={handleInputChange}
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   placeholder="Enter document title"
@@ -235,7 +235,7 @@ const UploadPage = () => {
                 <input
                   type="text"
                   name="fileName"
-                  value={formData.fileName}
+                  value={formData.fileName || ''}
                   onChange={handleInputChange}
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   placeholder="Enter file name"
@@ -265,7 +265,7 @@ const UploadPage = () => {
                 </label>
                 <select
                   name="department"
-                  value={formData.department}
+                  value={formData.department || ''}
                   onChange={handleInputChange}
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   required
@@ -311,7 +311,7 @@ const UploadPage = () => {
                 </label>
                 <select
                   name="year"
-                  value={formData.year}
+                  value={formData.year || ''}
                   onChange={handleInputChange}
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   required
@@ -341,7 +341,7 @@ const UploadPage = () => {
                 </label>
                 <select
                   name="semester"
-                  value={formData.semester}
+                  value={formData.semester || ''}
                   onChange={handleInputChange}
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   required
