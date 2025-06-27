@@ -5,6 +5,7 @@ import RedirectIfAuthenticated from './components/RedirectIfAuthenticated';
 import { ErrorBoundary } from 'react-error-boundary';
 import LoadingAnimation from './animation/LoadingAnimation';
 import Errorfallback from './components/Errorfallback';
+import SuspenseLoader from './animation/SuspenseLoader';
 
 // why to do this? to prevent send too match code
 const Home = lazy(() => import('./pages/Home'));
@@ -30,7 +31,7 @@ function App() {
       FallbackComponent={Errorfallback}
       onReset={() => window.location.reload()}
     >
-      <Suspense fallback={<LoadingAnimation />}>
+      <Suspense fallback={<SuspenseLoader />}>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="login" element={<LoginPage />} />
