@@ -97,7 +97,6 @@ const useNotificationSystem = () => {
   };
 
   const handleViewFile = async (notification: NotificationsType) => {
-    markAsRead(notification._id);
     await markAsRead(notification._id);
   };
 
