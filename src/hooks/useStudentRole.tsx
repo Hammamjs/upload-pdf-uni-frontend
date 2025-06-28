@@ -80,7 +80,7 @@ const useStudentRole = () => {
   };
 
   const getRoleIcon = (role: string) => {
-    return role === 'Admin' ? Crown : User;
+    return role === 'Admin' || role === 'SuperAdmin' ? Crown : User;
   };
 
   const getRoleColor = (role: string) => {

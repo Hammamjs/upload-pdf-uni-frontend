@@ -200,16 +200,6 @@ const usePDFManagement = () => {
   };
 
   useEffect(() => {
-    // const subjectsFiltered = pdfFiles.reduce(
-    //   (acc: string[], curr: SubjectType) => {
-    //     if (!acc.includes(curr.subject)) {
-    //       acc.push(curr.subject);
-    //     }
-    //     return acc;
-    //   },
-    //   []
-    // );
-
     const filteredOptions = pdfFiles
       .filter(
         (file) =>
