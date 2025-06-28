@@ -26,7 +26,7 @@ export const navItems = [
   {
     path: 'Change Roles',
     to: '/roles',
-    role: ['SuperAdmin', 'Admin'],
+    role: ['SuperAdmin'],
     icon: 'UserCog',
   },
   {
@@ -44,7 +44,7 @@ export const navItems = [
   {
     path: 'PDF Management',
     to: '/pdf-options',
-    role: ['SuperAdmin'],
+    role: ['SuperAdmin', 'Admin'],
     icon: 'Settings',
   },
   {
