@@ -39,6 +39,9 @@ const usePDFManagement = () => {
   // Edit form data
   const [editFormData, setEditFormData] = useState<Partial<SubjectType>>({});
 
+  // Subject filteration
+  const [subjectFiltered, setSubjectFiltered] = useState<string[]>([]);
+
   // Filter and sort PDFs
   const filteredAndSortedPDFs = pdfFiles
     .filter((pdf) => {
@@ -170,11 +173,8 @@ const usePDFManagement = () => {
       await updateFile(editingPDF);
       toast.success('File edited 🥳');
     } catch (err) {
-      console.log(err);
       if (axios.isAxiosError(err)) toast.error(err?.response?.data?.message);
     }
-
-    console.log('Hammam');
 
     setEditingPDF(null);
     setEditFormData({});
@@ -195,10 +195,35 @@ const usePDFManagement = () => {
       const res = await deleteFile(id);
       toast.success(`${res.message} ❌`);
     } catch (err) {
-      console.log(err);
       if (axios.isAxiosError(err)) toast.error(err?.response?.data?.message);
     }
   };
+
+  useEffect(() => {
+    // const subjectsFiltered = pdfFiles.reduce(
+    //   (acc: string[], curr: SubjectType) => {
+    //     if (!acc.includes(curr.subject)) {
+    //       acc.push(curr.subject);
+    //     }
+    //     return acc;
+    //   },
+    //   []
+    // );
+
+    const filteredOptions = pdfFiles
+      .filter(
+        (file) =>
+          file.year === selectedYear &&
+          file.semester === selectedSemester &&
+          file.departments.includes(selectedDepartment)
+      )
+      .reduce((acc: string[], cur: SubjectType) => {
+        if (!acc.includes(cur.subject)) acc.push(cur.subject);
+        return acc;
+      }, [] as string[]);
+
+    setSubjectFiltered(filteredOptions);
+  }, [pdfFiles, selectedYear, selectedDepartment, selectedSemester]);
 
   // Get sort icon
   const getSortIcon = (field: string) => {
@@ -239,6 +264,7 @@ const usePDFManagement = () => {
     setDeletingPDF,
     selectedSubject,
     setSelectedSubject,
+    subjectFiltered,
   };
 };
 

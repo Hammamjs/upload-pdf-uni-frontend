@@ -45,6 +45,7 @@ const PDFManagement = () => {
     setEditingPDF,
     selectedSubject,
     setSelectedSubject,
+    subjectFiltered,
   } = usePDFManagement();
 
   return (
@@ -165,13 +166,9 @@ const PDFManagement = () => {
               <option value="all" className="bg-gray-800 w-full">
                 All Subjects
               </option>
-              {pdfFiles.map((file) => (
-                <option
-                  key={file._id}
-                  value={file.subject}
-                  className="bg-gray-800 text-xs"
-                >
-                  {file.subject}
+              {subjectFiltered?.map((file: string) => (
+                <option key={file} value={file} className="bg-gray-800 text-xs">
+                  {file}
                 </option>
               ))}
             </select>
