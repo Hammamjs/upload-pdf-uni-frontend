@@ -24,6 +24,7 @@ const usePDFManagement = () => {
   const [selectedDepartment, setSelectedDepartment] = useState('all');
   const [selectedSemester, setSelectedSemester] = useState('all');
   const [selectedYear, setSelectedYear] = useState('all');
+  const [selectedSubject, setSelectedSubject] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [sortBy, setSortBy] = useState<
     'title' | 'uploadDate' | 'downloads' | 'size'
@@ -51,10 +52,16 @@ const usePDFManagement = () => {
         pdf.departments.includes(selectedDepartment);
       const matchesSemester =
         selectedSemester === 'all' || pdf.semester === selectedSemester;
+      const matchesSubject =
+        selectedSemester === 'all' || pdf.subject === selectedSubject;
       const matchesYear = selectedYear === 'all' || pdf.year === selectedYear;
 
       return (
-        matchesSearch && matchesDepartment && matchesSemester && matchesYear
+        matchesSearch &&
+        matchesDepartment &&
+        matchesSemester &&
+        matchesYear &&
+        matchesSubject
       );
     })
     .sort((a, b) => {
@@ -91,6 +98,7 @@ const usePDFManagement = () => {
     setSelectedSemester('all');
     setSelectedYear('all');
     setSelectedStatus('all');
+    setSelectedSubject('all');
   };
 
   // Check if any filters are active
@@ -229,6 +237,8 @@ const usePDFManagement = () => {
     setEditingPDF,
     deletingPDF,
     setDeletingPDF,
+    selectedSubject,
+    setSelectedSubject,
   };
 };
 

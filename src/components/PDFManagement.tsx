@@ -43,6 +43,8 @@ const PDFManagement = () => {
     editingPDF,
     setDeletingPDF,
     setEditingPDF,
+    selectedSubject,
+    setSelectedSubject,
   } = usePDFManagement();
 
   return (
@@ -144,6 +146,32 @@ const PDFManagement = () => {
               {FILE_BELONG_TO.map((year) => (
                 <option key={year} value={year} className="bg-gray-800">
                   {year} year
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Subject filter */}
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2 w-full">
+              Subject
+            </label>
+            <select
+              value={selectedSubject}
+              onChange={(e) => setSelectedSubject(e.target.value)}
+              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="all" className="bg-gray-800 w-full">
+                All Subjects
+              </option>
+              {pdfFiles.map((file) => (
+                <option
+                  key={file._id}
+                  value={file.subject}
+                  className="bg-gray-800 text-xs"
+                >
+                  {file.subject}
                 </option>
               ))}
             </select>
