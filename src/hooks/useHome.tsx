@@ -6,15 +6,16 @@ const useHome = () => {
   useEffect(() => {
     const randomNumber = Math.floor(Math.random() * AyatWAzkar.length);
     const choosen = AyatWAzkar[randomNumber];
-    toast(choosen, {
-      style: {
-        borderRadius: '10px',
-        background: '#333',
-        color: '#fff',
-        direction: 'rtl',
-      },
-      duration: 8000,
-    });
+    toast.custom((t) => (
+      <div
+        className={`${
+          t.visible ? 'animate-enter' : 'animate-leave'
+        } bg-white p-4 shadow-md round-md border text-right font-arabic`}
+        dir="rtl"
+      >
+        {choosen}
+      </div>
+    ));
   }, []);
 };
 

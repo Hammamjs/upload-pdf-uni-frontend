@@ -13,6 +13,9 @@ const config: Config = {
           },
         },
       },
+      fontFamily: {
+        arabic: ['Amiri', 'serif'],
+      },
     },
   },
   plugins: [],

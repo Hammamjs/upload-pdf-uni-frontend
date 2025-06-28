@@ -227,7 +227,7 @@ export type SubjectType = {
   size: number;
   code: string;
   description: string[];
-  uploader: {
+  uploader?: {
     _id: string;
     name: string;
     email: string;

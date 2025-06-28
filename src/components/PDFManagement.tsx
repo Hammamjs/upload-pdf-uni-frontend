@@ -288,10 +288,10 @@ const PDFManagement = () => {
                 <User className="h-4 w-4 text-gray-400" />
                 <div className="flex-1">
                   <p className="text-sm text-white font-medium">
-                    {pdf.uploader.name || 'Unknown'}
+                    {pdf.uploader?.name || 'Unknown'}
                   </p>
                   <p className="text-xs text-gray-400">
-                    {pdf.uploader.email ?? 'un@un.com'}
+                    {pdf.uploader?.email ?? 'un@un.com'}
                   </p>
                 </div>
                 <div className="text-right">
