@@ -13,7 +13,11 @@ import {
 } from '@/helpers/StudentMutations';
 
 const useStudentRole = () => {
-  const { data: studentsData, mutate } = useSWR('students', getStudents, {
+  const {
+    data: studentsData,
+    mutate,
+    error,
+  } = useSWR('students', getStudents, {
     suspense: true,
   });
 
@@ -33,6 +37,7 @@ const useStudentRole = () => {
   useEffect(() => {
     setStudents(studentsData?.results?.students || []);
     console.log(studentsData);
+    if (error) console.log(error);
   }, [studentsData]);
 
   const filteredUsers = students.filter((student) => {
