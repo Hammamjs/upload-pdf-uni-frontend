@@ -1,5 +1,5 @@
 import { resetPassword } from '@/api/AuthApi';
-import { getLocalstorage } from '@/lib/LocalStorage';
+import { clearFromLocalstorage, getLocalstorage } from '@/lib/LocalStorage';
 import axios from 'axios';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -96,6 +96,8 @@ const useResetPassword = () => {
       setIsLoading(false);
       if (res.status === 200) {
         setIsSuccess(true);
+        // removed stoered email from local storage
+        clearFromLocalstorage('reset-password-email');
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {

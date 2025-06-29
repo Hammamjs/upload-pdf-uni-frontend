@@ -214,8 +214,8 @@ const StudentRoleCard = () => {
                       </button>
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <span className="text-gray-300 text-sm">
-                        {formatDateFns(student.lastseen).slice(0, 5)}
+                      <span className="text-gray-400 text-[10px] ">
+                        {formatDateFns(student.lastseen)}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-center">

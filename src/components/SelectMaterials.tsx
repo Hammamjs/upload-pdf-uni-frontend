@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,52 +9,23 @@ import {
 } from '@/components/ui/select';
 import { BookOpen, GraduationCap, FileText, Download } from 'lucide-react';
 import { departments, FILE_BELONG_TO, SEMESTER } from '@/data/departmentArray';
-import useStudentMaterials from '@/hooks/useStudentMaterials';
-import { SubjectType } from '@/types';
 import { formatDateFns } from '@/utils/dateFormat';
+import useSubjectsMaterials from '@/hooks/useSubjectsMaterials';
 
 const StudyMaterials = () => {
-  const [selectedDepartment, setSelectedDepartment] = useState('');
-  const [selectedYear, setSelectedYear] = useState('');
-  const [selectedSemester, setSelectedSemester] = useState('');
-  const [showResults, setShowResults] = useState(false);
-  const [filtredMaterials, setFilteredMaterials] = useState<SubjectType[]>([]);
-
-  const { subjects } = useStudentMaterials();
-
-  const handleSearch = () => {
-    if (selectedDepartment && selectedYear && selectedSemester) {
-      setShowResults(true);
-    }
-  };
-
-  useEffect(() => {
-    console.log('From Materials ', subjects);
-    if (selectedDepartment && selectedSemester && selectedYear) {
-      const filteredMaterials = subjects.filter(
-        (pdf) =>
-          pdf.year === selectedYear.split(' ')[0] &&
-          pdf.departments.includes(selectedDepartment) &&
-          pdf.year === selectedYear.split(' ')[0]
-      );
-      setFilteredMaterials(filteredMaterials);
-      console.log(filteredMaterials);
-      // console.log(filteredMaterials);
-    }
-  }, [selectedDepartment, selectedSemester, selectedYear]);
-
-  const resetSelection = () => {
-    setSelectedDepartment('');
-    setSelectedYear('');
-    setSelectedSemester('');
-    setShowResults(false);
-  };
-
-  const handleDownloadFile = (content: string) => {
-    const link = document.createElement('a');
-    link.href = content;
-    link.click();
-  };
+  const {
+    filtredMaterials,
+    handleDownloadFile,
+    handleSearch,
+    resetSelection,
+    selectedDepartment,
+    selectedSemester,
+    selectedYear,
+    setSelectedDepartment,
+    setSelectedSemester,
+    setSelectedYear,
+    showResults,
+  } = useSubjectsMaterials();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -219,7 +189,7 @@ const StudyMaterials = () => {
 
             {/* PDF Results */}
             <div className="grid gap-4">
-              {filtredMaterials.map((pdf) => (
+              {filtredMaterials?.map((pdf) => (
                 <Card
                   key={pdf._id}
                   className="hover:shadow-md transition-shadow duration-200"
@@ -254,7 +224,7 @@ const StudyMaterials = () => {
               ))}
             </div>
 
-            {filtredMaterials.length === 0 && (
+            {filtredMaterials?.length === 0 && (
               <div className="text-center py-12">
                 <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                 <h3 className="text-lg font-medium text-gray-900 mb-2">

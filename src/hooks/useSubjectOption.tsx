@@ -130,7 +130,6 @@ const useSubjectOption = () => {
 
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this subject?')) {
-      console.log(id);
       try {
         await mutate(
           deleteSubjectMutation(id, data),
